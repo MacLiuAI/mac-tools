@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>租房管理系统</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif; background: #f5f5f7; color: #1d1d1f; min-height: 100vh; }
+
+        .header { background: #1d1d1f; color: white; padding: 16px 24px; display: flex; align-items: center; justify-content: space-between; }
+        .header h1 { font-size: 20px; font-weight: 600; }
+        .header-sub { font-size: 12px; color: #888; margin-top: 2px; }
+
+        .tabs { background: white; border-bottom: 1px solid #e5e5e5; padding: 0 24px; display: flex; }
+        .tab { padding: 14px 20px; cursor: pointer; border-bottom: 3px solid transparent; font-size: 14px; color: #666; transition: all 0.2s; user-select: none; }
+        .tab:hover { color: #1d1d1f; }
+        .tab.active { color: #007aff; border-bottom-color: #007aff; font-weight: 500; }
+        .tab .badge { display: inline-block; background: #ff3b30; color: white; border-radius: 10px; font-size: 11px; padding: 1px 6px; margin-left: 5px; vertical-align: middle; }
+
+        .content { padding: 24px; max-width: 1000px; margin: 0 auto; }
+        .panel { display: none; }
+        .panel.active { display: block; }
+
+        .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 24px; }
+        .stat-card { background: white; border-radius: 12px; padding: 20px; text-align: center; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+        .stat-card .value { font-size: 28px; font-weight: 700; color: #007aff; }
+        .stat-card .label { font-size: 13px; color: #666; margin-top: 4px; }
+
+        .card { background: white; border-radius: 12px; padding: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+
+        .btn { display: inline-flex; align-items: center; gap: 5px; padding: 8px 16px; border: none; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 500; transition: all 0.15s; }
+        .btn-primary { background: #007aff; color: white; }
+        .btn-primary:hover { background: #0062cc; }
+        .btn-danger { background: #ff3b30; color: white; }
+        .btn-danger:hover { background: #d32f2f; }
+        .btn-secondary { background: #f5f5f7; color: #1d1d1f; border: 1px solid #e5e5e5; }
+        .btn-secondary:hover { background: #e5e5e7; }
+        .btn-success { background: #34c759; color: white; }
+        .btn-success:hover { background: #28a745; }
+        .btn-sm { padding: 5px 10px; font-size: 12px; border-radius: 6px; }
+
+        .section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+        .section-header h2 { font-size: 16px; font-weight: 600; }
+
+        .filter-bar { display: flex; gap: 10px; margin-bottom: 16px; flex-wrap: wrap; }
+        .filter-bar select, .filter-bar input { padding: 8px 12px; border: 1px solid #e5e5e5; border-radius: 8px; font-size: 13px; outline: none; background: white; }
+        .filter-bar select:focus, .filter-bar input:focus { border-color: #007aff; }
+
+        .table-wrap { overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; font-size: 14px; }
+        th { text-align: left; padding: 10px 14px; background: #f5f5f7; color: #666; font-weight: 500; font-size: 12px; }
+        td { padding: 12px 14px; border-bottom: 1px solid #f0f0f0; vertical-align: middle; }
+        tr:last-child td { border-bottom: none; }
+        tr:hover td { background: #fafafa; }
+
+        .badge-paid   { display: inline-block; background: #e8f5e9; color: #2e7d32; padding: 3px 10px; border-radius: 20px; font-size: 12px; }
+        .badge-unpaid { display: inline-block; background: #ffebee; color: #c62828; padding: 3px 10px; border-radius: 20px; font-size: 12px; }
+        .badge-urgent { display: inline-block; background: #fff3e0; color: #e65100; padding: 3px 10px; border-radius: 20px; font-size: 12px; }
+        .badge-warn   { display: inline-block; background: #fffde7; color: #f57f17; padding: 3px 10px; border-radius: 20px; font-size: 12px; }
+        .badge-expired{ display: inline-block; background: #ffebee; color: #c62828; padding: 3px 10px; border-radius: 20px; font-size: 12px; }
+        .badge-ok     { display: inline-block; background: #e8f5e9; color: #2e7d32; padding: 3px 10px; border-radius: 20px; font-size: 12px; }
+
+        .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.45); z-index: 100; align-items: center; justify-content: center; }
+        .modal-overlay.open { display: flex; }
+        .modal { background: white; border-radius: 16px; padding: 28px; width: 480px; max-width: 94vw; max-height: 92vh; overflow-y: auto; box-shadow: 0 8px 32px rgba(0,0,0,0.18); }
+        .modal h2 { font-size: 18px; margin-bottom: 20px; }
+
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; font-size: 13px; color: #555; margin-bottom: 5px; font-weight: 500; }
+        .form-group input, .form-group select { width: 100%; padding: 10px 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; outline: none; transition: border-color 0.15s; }
+        .form-group input:focus, .form-group select:focus { border-color: #007aff; box-shadow: 0 0 0 3px rgba(0,122,255,0.1); }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .form-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px; padding-top: 16px; border-top: 1px solid #f0f0f0; }
+
+        .empty { text-align: center; padding: 48px 24px; color: #aaa; }
+        .empty .icon { font-size: 44px; margin-bottom: 12px; }
+        .empty p { font-size: 14px; }
+
+        .progress-bar { background: #efefef; border-radius: 4px; height: 5px; margin-top: 5px; overflow: hidden; width: 120px; }
+        .progress-fill { height: 100%; border-radius: 4px; }
+
+        .summary-bar { padding: 12px 14px; border-top: 1px solid #f0f0f0; font-size: 13px; color: #666; }
+
+        .toast { position: fixed; bottom: 24px; right: 24px; background: #1d1d1f; color: white; padding: 11px 18px; border-radius: 10px; font-size: 13px; z-index: 200; opacity: 0; transform: translateY(8px); transition: all 0.25s; pointer-events: none; }
+        .toast.show { opacity: 1; transform: translateY(0); }
+
+        @media (max-width: 600px) {
+            .stats { grid-template-columns: 1fr 1fr; }
+            .form-row { grid-template-columns: 1fr; }
+            .content { padding: 14px; }
+            .tabs { padding: 0 12px; }
+            .tab { padding: 12px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <div>
+        <h1>🏠 租房管理</h1>
+        <div class="header-sub">数据保存在本地，关闭浏览器不丢失</div>
+    </div>
+</div>
+
+<div class="tabs">
+    <div class="tab active" data-tab="tenants" onclick="switchTab(this,'tenants')">租客管理</div>
+    <div class="tab" data-tab="rent" onclick="switchTab(this,'rent')">租金记录</div>
+    <div class="tab" id="tab-contracts" data-tab="contracts" onclick="switchTab(this,'contracts')">合同提醒</div>
+</div>
+
+<div class="content">
+
+    <!-- 租客管理 -->
+    <div class="panel active" id="panel-tenants">
+        <div class="stats" id="tenant-stats"></div>
+        <div class="card">
+            <div class="section-header">
+                <h2>租客列表</h2>
+                <button class="btn btn-primary" onclick="openTenantModal()">＋ 添加租客</button>
+            </div>
+            <div class="table-wrap">
+                <table>
+                    <thead><tr>
+                        <th>姓名</th><th>联系方式</th><th>房间号</th>
+                        <th>月租金</th><th>合同到期</th><th>操作</th>
+                    </tr></thead>
+                    <tbody id="tenant-list"></tbody>
+                </table>
+            </div>
+            <div id="tenant-empty" class="empty" style="display:none">
+                <div class="icon">👥</div>
+                <p>暂无租客，点击右上角「添加租客」开始</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 租金记录 -->
+    <div class="panel" id="panel-rent">
+        <div class="card">
+            <div class="section-header">
+                <h2>租金记录</h2>
+                <button class="btn btn-primary" onclick="openRentModal()">＋ 添加记录</button>
+            </div>
+            <div class="filter-bar">
+                <select id="rent-filter-tenant" onchange="renderRent()">
+                    <option value="">全部租客</option>
+                </select>
+                <select id="rent-filter-status" onchange="renderRent()">
+                    <option value="">全部状态</option>
+                    <option value="paid">已收款</option>
+                    <option value="unpaid">未收款</option>
+                </select>
+                <select id="rent-filter-year" onchange="renderRent()">
+                    <option value="">全部年份</option>
+                </select>
+            </div>
+            <div class="table-wrap">
+                <table>
+                    <thead><tr>
+                        <th>租客</th><th>房间</th><th>月份</th>
+                        <th>金额</th><th>状态</th><th>操作</th>
+                    </tr></thead>
+                    <tbody id="rent-list"></tbody>
+                </table>
+            </div>
+            <div id="rent-empty" class="empty" style="display:none">
+                <div class="icon">💰</div>
+                <p>暂无租金记录</p>
+            </div>
+            <div id="rent-summary" class="summary-bar" style="display:none"></div>
+        </div>
+    </div>
+
+    <!-- 合同提醒 -->
+    <div class="panel" id="panel-contracts">
+        <div class="card">
+            <div class="section-header">
+                <h2>合同到期提醒</h2>
+            </div>
+            <div class="filter-bar">
+                <select id="contract-filter" onchange="renderContracts()">
+                    <option value="all">全部合同</option>
+                    <option value="30">30天内到期</option>
+                    <option value="60">60天内到期</option>
+                    <option value="90">90天内到期</option>
+                    <option value="expired">已到期</option>
+                </select>
+            </div>
+            <div class="table-wrap">
+                <table>
+                    <thead><tr>
+                        <th>姓名</th><th>房间号</th><th>合同到期日</th>
+                        <th>剩余天数 / 进度</th><th>状态</th>
+                    </tr></thead>
+                    <tbody id="contract-list"></tbody>
+                </table>
+            </div>
+            <div id="contract-empty" class="empty" style="display:none">
+                <div class="icon">📋</div>
+                <p>暂无合同数据，请先在「租客管理」中填写合同结束日期</p>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- 租客弹窗 -->
+<div class="modal-overlay" id="tenant-modal">
+    <div class="modal">
+        <h2 id="tenant-modal-title">添加租客</h2>
+        <input type="hidden" id="tenant-id">
+        <div class="form-row">
+            <div class="form-group">
+                <label>姓名 *</label>
+                <input type="text" id="t-name" placeholder="租客姓名">
+            </div>
+            <div class="form-group">
+                <label>联系方式 *</label>
+                <input type="text" id="t-phone" placeholder="手机号">
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label>房间号 *</label>
+                <input type="text" id="t-room" placeholder="如：101、A栋302">
+            </div>
+            <div class="form-group">
+                <label>月租金（元）</label>
+                <input type="number" id="t-rent" placeholder="如：2500" min="0">
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label>合同开始日期</label>
+                <input type="date" id="t-start">
+            </div>
+            <div class="form-group">
+                <label>合同结束日期</label>
+                <input type="date" id="t-end">
+            </div>
+        </div>
+        <div class="form-actions">
+            <button class="btn btn-secondary" onclick="closeModal('tenant-modal')">取消</button>
+            <button class="btn btn-primary" onclick="saveTenant()">保存</button>
+        </div>
+    </div>
+</div>
+
+<!-- 租金弹窗 -->
+<div class="modal-overlay" id="rent-modal">
+    <div class="modal">
+        <h2>添加租金记录</h2>
+        <input type="hidden" id="rent-id">
+        <div class="form-group">
+            <label>租客 *</label>
+            <select id="r-tenant"></select>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label>月份 *</label>
+                <input type="month" id="r-month">
+            </div>
+            <div class="form-group">
+                <label>金额（元）*</label>
+                <input type="number" id="r-amount" placeholder="如：2500" min="0">
+            </div>
+        </div>
+        <div class="form-group">
+            <label>收款状态</label>
+            <select id="r-status">
+                <option value="unpaid">未收款</option>
+                <option value="paid">已收款</option>
+            </select>
+        </div>
+        <div class="form-actions">
+            <button class="btn btn-secondary" onclick="closeModal('rent-modal')">取消</button>
+            <button class="btn btn-primary" onclick="saveRent()">保存</button>
+        </div>
+    </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ── 数据存取 ──────────────────────────────────────────
+function dbGet(key, def) {
+    try { return JSON.parse(localStorage.getItem(key)) || def; } catch(e) { return def; }
+}
+function dbSet(key, val) {
+    localStorage.setItem(key, JSON.stringify(val));
+}
+
+var tenants     = dbGet('rm_tenants', []);
+var rentRecords = dbGet('rm_rents', []);
+
+function persist() {
+    dbSet('rm_tenants', tenants);
+    dbSet('rm_rents', rentRecords);
+    showToast('✓ 已保存');
+}
+
+// ── 工具函数 ──────────────────────────────────────────
+function uid() {
+    return Date.now().toString(36) + Math.random().toString(36).substr(2, 5);
+}
+
+function daysUntil(dateStr) {
+    if (!dateStr) return null;
+    var today = new Date(); today.setHours(0,0,0,0);
+    var target = new Date(dateStr);
+    return Math.round((target - today) / 86400000);
+}
+
+function fmtDate(s) {
+    if (!s) return '—';
+    var d = new Date(s);
+    return d.getFullYear() + '年' + (d.getMonth()+1) + '月' + d.getDate() + '日';
+}
+
+function fmtMonth(s) {
+    if (!s) return '—';
+    var p = s.split('-');
+    return p[0] + '年' + parseInt(p[1]) + '月';
+}
+
+function showToast(msg) {
+    var t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    clearTimeout(t._t);
+    t._t = setTimeout(function(){ t.classList.remove('show'); }, 1800);
+}
+
+function closeModal(id) {
+    document.getElementById(id).classList.remove('open');
+}
+
+// Close on overlay click
+document.querySelectorAll('.modal-overlay').forEach(function(el) {
+    el.addEventListener('click', function(e) {
+        if (e.target === el) el.classList.remove('open');
+    });
+});
+
+// ── Tab 切换 ──────────────────────────────────────────
+function switchTab(el, tab) {
+    document.querySelectorAll('.tab').forEach(function(t){ t.classList.remove('active'); });
+    document.querySelectorAll('.panel').forEach(function(p){ p.classList.remove('active'); });
+    el.classList.add('active');
+    document.getElementById('panel-' + tab).classList.add('active');
+    if (tab === 'tenants')   renderTenants();
+    if (tab === 'rent')      { syncRentFilters(); renderRent(); }
+    if (tab === 'contracts') renderContracts();
+}
+
+// ── 租客管理 ──────────────────────────────────────────
+function renderTenants() {
+    var tbody = document.getElementById('tenant-list');
+    var empty = document.getElementById('tenant-empty');
+
+    // 统计卡
+    var totalRent = tenants.reduce(function(s,t){ return s + (Number(t.rent)||0); }, 0);
+    var expiringSoon = tenants.filter(function(t){
+        var d = daysUntil(t.end); return d !== null && d >= 0 && d <= 30;
+    }).length;
+    document.getElementById('tenant-stats').innerHTML =
+        '<div class="stat-card"><div class="value">' + tenants.length + '</div><div class="label">在租租客</div></div>' +
+        '<div class="stat-card"><div class="value">¥' + totalRent.toLocaleString() + '</div><div class="label">月租合计</div></div>' +
+        '<div class="stat-card"><div class="value" style="color:' + (expiringSoon > 0 ? '#ff9500' : '#34c759') + '">' + expiringSoon + '</div><div class="label">30天内到期</div></div>';
+
+    if (tenants.length === 0) {
+        tbody.innerHTML = '';
+        empty.style.display = '';
+        return;
+    }
+    empty.style.display = 'none';
+
+    tbody.innerHTML = tenants.map(function(t) {
+        var days = daysUntil(t.end);
+        var statusHtml;
+        if (days === null)      statusHtml = '<span style="color:#aaa;font-size:12px">未设置</span>';
+        else if (days < 0)      statusHtml = '<span class="badge-expired">已到期</span>';
+        else if (days <= 30)    statusHtml = '<span class="badge-urgent">还剩 ' + days + ' 天</span>';
+        else if (days <= 90)    statusHtml = '<span class="badge-warn">还剩 ' + days + ' 天</span>';
+        else                    statusHtml = '<span class="badge-ok">还剩 ' + days + ' 天</span>';
+
+        return '<tr>' +
+            '<td><strong>' + esc(t.name) + '</strong></td>' +
+            '<td>' + esc(t.phone) + '</td>' +
+            '<td>' + esc(t.room) + '</td>' +
+            '<td>' + (t.rent ? '¥' + Number(t.rent).toLocaleString() + '/月' : '—') + '</td>' +
+            '<td>' + (t.end ? fmtDate(t.end) + '<br>' + statusHtml : '—') + '</td>' +
+            '<td>' +
+                '<button class="btn btn-secondary btn-sm" onclick="openTenantModal(\'' + t.id + '\')">编辑</button> ' +
+                '<button class="btn btn-danger btn-sm" onclick="deleteTenant(\'' + t.id + '\')">删除</button>' +
+            '</td>' +
+        '</tr>';
+    }).join('');
+}
+
+function openTenantModal(id) {
+    document.getElementById('tenant-modal-title').textContent = id ? '编辑租客' : '添加租客';
+    document.getElementById('tenant-id').value = id || '';
+    if (id) {
+        var t = tenants.find(function(x){ return x.id === id; });
+        document.getElementById('t-name').value  = t.name;
+        document.getElementById('t-phone').value = t.phone;
+        document.getElementById('t-room').value  = t.room;
+        document.getElementById('t-rent').value  = t.rent || '';
+        document.getElementById('t-start').value = t.start || '';
+        document.getElementById('t-end').value   = t.end || '';
+    } else {
+        ['t-name','t-phone','t-room','t-rent','t-start','t-end'].forEach(function(i){ document.getElementById(i).value = ''; });
+    }
+    document.getElementById('tenant-modal').classList.add('open');
+    document.getElementById('t-name').focus();
+}
+
+function saveTenant() {
+    var name  = document.getElementById('t-name').value.trim();
+    var phone = document.getElementById('t-phone').value.trim();
+    var room  = document.getElementById('t-room').value.trim();
+    if (!name || !phone || !room) { alert('请填写姓名、联系方式和房间号'); return; }
+
+    var id = document.getElementById('tenant-id').value;
+    var data = {
+        name: name, phone: phone, room: room,
+        rent:  document.getElementById('t-rent').value,
+        start: document.getElementById('t-start').value,
+        end:   document.getElementById('t-end').value
+    };
+
+    if (id) {
+        var idx = tenants.findIndex(function(t){ return t.id === id; });
+        tenants[idx] = Object.assign({}, tenants[idx], data);
+    } else {
+        tenants.push(Object.assign({ id: uid() }, data));
+    }
+    persist();
+    closeModal('tenant-modal');
+    renderTenants();
+    updateContractBadge();
+}
+
+function deleteTenant(id) {
+    if (!confirm('确定删除该租客？（相关租金记录不会被删除）')) return;
+    tenants = tenants.filter(function(t){ return t.id !== id; });
+    persist();
+    renderTenants();
+    updateContractBadge();
+}
+
+// ── 租金记录 ──────────────────────────────────────────
+function syncRentFilters() {
+    // 租客下拉
+    var tSel = document.getElementById('rent-filter-tenant');
+    var curT = tSel.value;
+    tSel.innerHTML = '<option value="">全部租客</option>' +
+        tenants.map(function(t){
+            return '<option value="' + t.id + '"' + (curT === t.id ? ' selected' : '') + '>' + esc(t.name) + '（' + esc(t.room) + '）</option>';
+        }).join('');
+
+    // 年份下拉
+    var ySel = document.getElementById('rent-filter-year');
+    var curY = ySel.value;
+    var years = [];
+    rentRecords.forEach(function(r){ var y = (r.month||'').split('-')[0]; if (y && years.indexOf(y) === -1) years.push(y); });
+    years.sort().reverse();
+    ySel.innerHTML = '<option value="">全部年份</option>' +
+        years.map(function(y){
+            return '<option value="' + y + '"' + (curY === y ? ' selected' : '') + '>' + y + '年</option>';
+        }).join('');
+
+    // 新建记录时的租客选择器
+    var rSel = document.getElementById('r-tenant');
+    rSel.innerHTML = tenants.map(function(t){
+        return '<option value="' + t.id + '">' + esc(t.name) + '（' + esc(t.room) + '）</option>';
+    }).join('');
+}
+
+function renderRent() {
+    var filterTenant = document.getElementById('rent-filter-tenant').value;
+    var filterStatus = document.getElementById('rent-filter-status').value;
+    var filterYear   = document.getElementById('rent-filter-year').value;
+
+    var records = rentRecords.filter(function(r){
+        if (filterTenant && r.tenantId !== filterTenant) return false;
+        if (filterStatus && r.status !== filterStatus)   return false;
+        if (filterYear   && !(r.month||'').startsWith(filterYear)) return false;
+        return true;
+    });
+    records = records.slice().sort(function(a,b){ return (b.month||'').localeCompare(a.month||''); });
+
+    var tbody   = document.getElementById('rent-list');
+    var empty   = document.getElementById('rent-empty');
+    var summary = document.getElementById('rent-summary');
+
+    if (records.length === 0) {
+        tbody.innerHTML = '';
+        empty.style.display = '';
+        summary.style.display = 'none';
+        return;
+    }
+    empty.style.display = 'none';
+
+    tbody.innerHTML = records.map(function(r) {
+        var tenant = tenants.find(function(t){ return t.id === r.tenantId; });
+        var tName = tenant ? esc(tenant.name) : '<span style="color:#aaa">已删除</span>';
+        var room  = tenant ? esc(tenant.room) : '—';
+        var statusBadge = r.status === 'paid'
+            ? '<span class="badge-paid">已收款</span>'
+            : '<span class="badge-unpaid">未收款</span>';
+        var markBtn = r.status === 'unpaid'
+            ? '<button class="btn btn-success btn-sm" onclick="markPaid(\'' + r.id + '\')">标记已收</button> '
+            : '';
+        return '<tr>' +
+            '<td>' + tName + '</td>' +
+            '<td>' + room + '</td>' +
+            '<td>' + fmtMonth(r.month) + '</td>' +
+            '<td>¥' + Number(r.amount).toLocaleString() + '</td>' +
+            '<td>' + statusBadge + '</td>' +
+            '<td>' + markBtn + '<button class="btn btn-danger btn-sm" onclick="deleteRent(\'' + r.id + '\')">删除</button></td>' +
+        '</tr>';
+    }).join('');
+
+    var total  = records.reduce(function(s,r){ return s + Number(r.amount); }, 0);
+    var paid   = records.filter(function(r){ return r.status === 'paid'; }).reduce(function(s,r){ return s + Number(r.amount); }, 0);
+    var unpaid = total - paid;
+    summary.style.display = '';
+    summary.innerHTML = '共 ' + records.length + ' 条 | 合计：¥' + total.toLocaleString() +
+        ' | 已收：<span style="color:#34c759;font-weight:600">¥' + paid.toLocaleString() + '</span>' +
+        ' | 未收：<span style="color:#ff3b30;font-weight:600">¥' + unpaid.toLocaleString() + '</span>';
+}
+
+function openRentModal() {
+    if (tenants.length === 0) { alert('请先添加租客'); return; }
+    syncRentFilters();
+    var now = new Date();
+    document.getElementById('r-month').value  = now.getFullYear() + '-' + String(now.getMonth()+1).padStart(2,'0');
+    document.getElementById('r-amount').value = '';
+    document.getElementById('r-status').value = 'unpaid';
+    document.getElementById('rent-modal').classList.add('open');
+    document.getElementById('r-amount').focus();
+}
+
+function saveRent() {
+    var tenantId = document.getElementById('r-tenant').value;
+    var month    = document.getElementById('r-month').value;
+    var amount   = document.getElementById('r-amount').value;
+    if (!tenantId || !month || !amount) { alert('请填写租客、月份和金额'); return; }
+
+    rentRecords.push({
+        id: uid(), tenantId: tenantId, month: month,
+        amount: Number(amount),
+        status: document.getElementById('r-status').value
+    });
+    persist();
+    closeModal('rent-modal');
+    syncRentFilters();
+    renderRent();
+}
+
+function markPaid(id) {
+    var r = rentRecords.find(function(x){ return x.id === id; });
+    if (r) { r.status = 'paid'; persist(); renderRent(); }
+}
+
+function deleteRent(id) {
+    if (!confirm('确定删除该租金记录？')) return;
+    rentRecords = rentRecords.filter(function(r){ return r.id !== id; });
+    persist();
+    syncRentFilters();
+    renderRent();
+}
+
+// ── 合同提醒 ──────────────────────────────────────────
+function renderContracts() {
+    var filter  = document.getElementById('contract-filter').value;
+    var tbody   = document.getElementById('contract-list');
+    var empty   = document.getElementById('contract-empty');
+
+    var list = tenants
+        .filter(function(t){ return !!t.end; })
+        .map(function(t){ return Object.assign({}, t, { days: daysUntil(t.end) }); });
+
+    if (filter === 'expired') {
+        list = list.filter(function(t){ return t.days < 0; });
+    } else if (filter !== 'all') {
+        var n = parseInt(filter);
+        list = list.filter(function(t){ return t.days >= 0 && t.days <= n; });
+    }
+    list.sort(function(a,b){ return (a.days||0) - (b.days||0); });
+
+    if (list.length === 0) {
+        tbody.innerHTML = '';
+        empty.style.display = '';
+        return;
+    }
+    empty.style.display = 'none';
+
+    tbody.innerHTML = list.map(function(t) {
+        var badge, barColor;
+        if (t.days < 0) {
+            badge    = '<span class="badge-expired">已到期 ' + Math.abs(t.days) + ' 天</span>';
+            barColor = '#ff3b30';
+        } else if (t.days <= 30) {
+            badge    = '<span class="badge-urgent">紧急</span>';
+            barColor = '#ff9500';
+        } else if (t.days <= 90) {
+            badge    = '<span class="badge-warn">即将到期</span>';
+            barColor = '#ffcc00';
+        } else {
+            badge    = '<span class="badge-ok">正常</span>';
+            barColor = '#34c759';
+        }
+
+        var progressHtml = '';
+        if (t.start && t.end) {
+            var total   = new Date(t.end) - new Date(t.start);
+            var elapsed = Date.now() - new Date(t.start);
+            var pct     = Math.max(0, Math.min(100, Math.round(elapsed / total * 100)));
+            progressHtml = '<div class="progress-bar"><div class="progress-fill" style="width:' + pct + '%;background:' + barColor + '"></div></div>';
+        }
+
+        var daysText = t.days < 0
+            ? '已过期 ' + Math.abs(t.days) + ' 天'
+            : '还剩 ' + t.days + ' 天';
+
+        return '<tr>' +
+            '<td><strong>' + esc(t.name) + '</strong></td>' +
+            '<td>' + esc(t.room) + '</td>' +
+            '<td>' + fmtDate(t.end) + '</td>' +
+            '<td>' + daysText + progressHtml + '</td>' +
+            '<td>' + badge + '</td>' +
+        '</tr>';
+    }).join('');
+}
+
+function updateContractBadge() {
+    var urgent  = tenants.filter(function(t){ var d = daysUntil(t.end); return d !== null && d >= 0 && d <= 30; }).length;
+    var expired = tenants.filter(function(t){ var d = daysUntil(t.end); return d !== null && d < 0; }).length;
+    var total   = urgent + expired;
+    var tab = document.getElementById('tab-contracts');
+    if (total > 0) {
+        tab.innerHTML = '合同提醒 <span class="badge">' + total + '</span>';
+    } else {
+        tab.textContent = '合同提醒';
+    }
+}
+
+// XSS 防护
+function esc(s) {
+    return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ── 初始化 ──────────────────────────────────────────
+renderTenants();
+updateContractBadge();
+</script>
+</body>
+</html>
