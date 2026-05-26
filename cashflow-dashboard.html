@@ -950,23 +950,28 @@ function renderSurvivalLine() {
     var months  = monthlyExp > 0 ? available / monthlyExp : 0;
     var maxMo   = 6;
     var pct     = Math.min(months / maxMo, 1.0) * 100;
-    var t3pct   = (3 / maxMo) * 100; // 50%
-
     // fill color by tier
     var fillColor = months <= 1 ? '#ff3b30'
                   : months <= 3 ? '#ff9500'
                   : months <= 6 ? '#34c759'
                   : '#007aff';
 
-    // Bar HTML: labels at top:0, track in flow after padding-top:22px, ticks overlay the track
-    var barHtml =
-        '<div style="position:absolute;top:0;left:' + t3pct + '%;transform:translateX(-50%);font-size:11px;color:#aaa;white-space:nowrap">3个月</div>' +
-        '<div style="position:absolute;top:0;right:0;font-size:11px;color:#aaa;white-space:nowrap">6个月</div>' +
+    // 6 equidistant tick marks (1–6 months)
+    // Labels sit above the bar (top:0); tick lines overlay the bar (top:22px)
+    var ticks = '';
+    for (var i = 1; i <= maxMo; i++) {
+        var tickPct      = (i / maxMo) * 100;
+        // last label right-aligned to stay inside the container
+        var labelXform   = i === maxMo ? 'translateX(-100%)' : 'translateX(-50%)';
+        ticks +=
+            '<div style="position:absolute;top:0;left:' + tickPct + '%;transform:' + labelXform + ';font-size:11px;color:#aaa;line-height:1;white-space:nowrap">' + i + '</div>' +
+            '<div style="position:absolute;left:' + tickPct + '%;top:22px;width:2px;height:16px;background:rgba(0,0,0,0.15);transform:translateX(-50%);pointer-events:none"></div>';
+    }
+
+    var barHtml = ticks +
         '<div class="sv-track">' +
             '<div class="sv-fill" style="width:' + pct + '%;background:' + fillColor + '"></div>' +
-        '</div>' +
-        '<div style="position:absolute;left:' + t3pct + '%;top:22px;width:2px;height:16px;background:rgba(0,0,0,0.15);transform:translateX(-50%);pointer-events:none"></div>' +
-        '<div style="position:absolute;right:0;top:22px;width:2px;height:16px;background:rgba(0,0,0,0.15);pointer-events:none"></div>';
+        '</div>';
 
     document.getElementById('sv-bar-wrap').innerHTML = barHtml;
 
