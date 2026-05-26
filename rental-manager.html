@@ -60,6 +60,7 @@
         .badge-warn   { display: inline-block; background: #fffde7; color: #f57f17; padding: 3px 10px; border-radius: 20px; font-size: 12px; }
         .badge-expired{ display: inline-block; background: #ffebee; color: #c62828; padding: 3px 10px; border-radius: 20px; font-size: 12px; }
         .badge-ok     { display: inline-block; background: #e8f5e9; color: #2e7d32; padding: 3px 10px; border-radius: 20px; font-size: 12px; }
+        .badge-cycle  { display: inline-block; background: #e8f0fe; color: #1a73e8; padding: 3px 10px; border-radius: 20px; font-size: 12px; }
 
         .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.45); z-index: 100; align-items: center; justify-content: center; }
         .modal-overlay.open { display: flex; }
@@ -123,7 +124,7 @@
                 <table>
                     <thead><tr>
                         <th>姓名</th><th>联系方式</th><th>房间号</th>
-                        <th>月租金</th><th>合同到期</th><th>操作</th>
+                        <th>月租金</th><th>付款周期</th><th>合同到期</th><th>操作</th>
                     </tr></thead>
                     <tbody id="tenant-list"></tbody>
                 </table>
@@ -159,7 +160,7 @@
                 <table>
                     <thead><tr>
                         <th>租客</th><th>房间</th><th>月份</th>
-                        <th>金额</th><th>状态</th><th>操作</th>
+                        <th>金额</th><th>付款周期</th><th>状态</th><th>操作</th>
                     </tr></thead>
                     <tbody id="rent-list"></tbody>
                 </table>
@@ -228,6 +229,21 @@
             <div class="form-group">
                 <label>月租金（元）</label>
                 <input type="number" id="t-rent" placeholder="如：2500" min="0">
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label>付款周期</label>
+                <select id="t-cycle">
+                    <option value="">请选择</option>
+                    <option value="月付">月付</option>
+                    <option value="季付">季付</option>
+                    <option value="年付">年付</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>年租总额（元）</label>
+                <input type="number" id="t-annual" placeholder="如：30000" min="0">
             </div>
         </div>
         <div class="form-row">
@@ -385,15 +401,20 @@ function renderTenants() {
         else if (days <= 90)    statusHtml = '<span class="badge-warn">还剩 ' + days + ' 天</span>';
         else                    statusHtml = '<span class="badge-ok">还剩 ' + days + ' 天</span>';
 
+        var cycleHtml = t.cycle
+            ? '<span class="badge-cycle">' + esc(t.cycle) + '</span>'
+            : '<span style="color:#aaa;font-size:12px">未设置</span>';
+
         return '<tr>' +
             '<td><strong>' + esc(t.name) + '</strong></td>' +
             '<td>' + esc(t.phone) + '</td>' +
             '<td>' + esc(t.room) + '</td>' +
             '<td>' + (t.rent ? '¥' + Number(t.rent).toLocaleString() + '/月' : '—') + '</td>' +
+            '<td>' + cycleHtml + (t.annual ? '<br><span style="font-size:12px;color:#666">年租 ¥' + Number(t.annual).toLocaleString() + '</span>' : '') + '</td>' +
             '<td>' + (t.end ? fmtDate(t.end) + '<br>' + statusHtml : '—') + '</td>' +
             '<td>' +
-                '<button class="btn btn-secondary btn-sm" onclick="openTenantModal(\'' + t.id + '\')">编辑</button> ' +
-                '<button class="btn btn-danger btn-sm" onclick="deleteTenant(\'' + t.id + '\')">删除</button>' +
+                '<button class="btn btn-secondary btn-sm" onclick="openTenantModal(\'' + t.id + \'\')" >编辑</button> ' +
+                '<button class="btn btn-danger btn-sm" onclick="deleteTenant(\'' + t.id + \'\')" >删除</button>' +
             '</td>' +
         '</tr>';
     }).join('');
@@ -404,14 +425,16 @@ function openTenantModal(id) {
     document.getElementById('tenant-id').value = id || '';
     if (id) {
         var t = tenants.find(function(x){ return x.id === id; });
-        document.getElementById('t-name').value  = t.name;
-        document.getElementById('t-phone').value = t.phone;
-        document.getElementById('t-room').value  = t.room;
-        document.getElementById('t-rent').value  = t.rent || '';
-        document.getElementById('t-start').value = t.start || '';
-        document.getElementById('t-end').value   = t.end || '';
+        document.getElementById('t-name').value   = t.name;
+        document.getElementById('t-phone').value  = t.phone;
+        document.getElementById('t-room').value   = t.room;
+        document.getElementById('t-rent').value   = t.rent || '';
+        document.getElementById('t-cycle').value  = t.cycle || '';
+        document.getElementById('t-annual').value = t.annual || '';
+        document.getElementById('t-start').value  = t.start || '';
+        document.getElementById('t-end').value    = t.end || '';
     } else {
-        ['t-name','t-phone','t-room','t-rent','t-start','t-end'].forEach(function(i){ document.getElementById(i).value = ''; });
+        ['t-name','t-phone','t-room','t-rent','t-cycle','t-annual','t-start','t-end'].forEach(function(i){ document.getElementById(i).value = ''; });
     }
     document.getElementById('tenant-modal').classList.add('open');
     document.getElementById('t-name').focus();
@@ -426,9 +449,11 @@ function saveTenant() {
     var id = document.getElementById('tenant-id').value;
     var data = {
         name: name, phone: phone, room: room,
-        rent:  document.getElementById('t-rent').value,
-        start: document.getElementById('t-start').value,
-        end:   document.getElementById('t-end').value
+        rent:   document.getElementById('t-rent').value,
+        cycle:  document.getElementById('t-cycle').value,
+        annual: document.getElementById('t-annual').value,
+        start:  document.getElementById('t-start').value,
+        end:    document.getElementById('t-end').value
     };
 
     if (id) {
@@ -506,21 +531,25 @@ function renderRent() {
 
     tbody.innerHTML = records.map(function(r) {
         var tenant = tenants.find(function(t){ return t.id === r.tenantId; });
-        var tName = tenant ? esc(tenant.name) : '<span style="color:#aaa">已删除</span>';
-        var room  = tenant ? esc(tenant.room) : '—';
+        var tName  = tenant ? esc(tenant.name) : '<span style="color:#aaa">已删除</span>';
+        var room   = tenant ? esc(tenant.room) : '—';
+        var cycleHtml = tenant && tenant.cycle
+            ? '<span class="badge-cycle">' + esc(tenant.cycle) + '</span>'
+            : '<span style="color:#aaa;font-size:12px">—</span>';
         var statusBadge = r.status === 'paid'
             ? '<span class="badge-paid">已收款</span>'
             : '<span class="badge-unpaid">未收款</span>';
         var markBtn = r.status === 'unpaid'
-            ? '<button class="btn btn-success btn-sm" onclick="markPaid(\'' + r.id + '\')">标记已收</button> '
+            ? '<button class="btn btn-success btn-sm" onclick="markPaid(\'' + r.id + \'\')" >标记已收</button> '
             : '';
         return '<tr>' +
             '<td>' + tName + '</td>' +
             '<td>' + room + '</td>' +
             '<td>' + fmtMonth(r.month) + '</td>' +
             '<td>¥' + Number(r.amount).toLocaleString() + '</td>' +
+            '<td>' + cycleHtml + '</td>' +
             '<td>' + statusBadge + '</td>' +
-            '<td>' + markBtn + '<button class="btn btn-danger btn-sm" onclick="deleteRent(\'' + r.id + '\')">删除</button></td>' +
+            '<td>' + markBtn + '<button class="btn btn-danger btn-sm" onclick="deleteRent(\'' + r.id + \'\')" >删除</button></td>' +
         '</tr>';
     }).join('');
 
