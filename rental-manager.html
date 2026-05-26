@@ -11,6 +11,8 @@
         .header { background: #1d1d1f; color: white; padding: 16px 24px; display: flex; align-items: center; justify-content: space-between; }
         .header h1 { font-size: 20px; font-weight: 600; }
         .header-sub { font-size: 12px; color: #888; margin-top: 2px; }
+        .btn-header { background: rgba(255,255,255,0.12); color: white; border: 1px solid rgba(255,255,255,0.25); font-size: 13px; padding: 7px 13px; }
+        .btn-header:hover { background: rgba(255,255,255,0.22); }
 
         .tabs { background: white; border-bottom: 1px solid #e5e5e5; padding: 0 24px; display: flex; }
         .tab { padding: 14px 20px; cursor: pointer; border-bottom: 3px solid transparent; font-size: 14px; color: #666; transition: all 0.2s; user-select: none; }
@@ -92,6 +94,7 @@
             .content { padding: 14px; }
             .tabs { padding: 0 12px; }
             .tab { padding: 12px 12px; font-size: 13px; }
+            .header-actions { gap: 6px; }
         }
     </style>
 </head>
@@ -101,6 +104,11 @@
     <div>
         <h1>🏠 租房管理</h1>
         <div class="header-sub">数据保存在本地，关闭浏览器不丢失</div>
+    </div>
+    <div class="header-actions" style="display:flex;gap:8px;align-items:center;">
+        <button class="btn btn-header" onclick="exportData()">⬇ 导出数据</button>
+        <button class="btn btn-header" onclick="document.getElementById('import-file').click()">⬆ 导入数据</button>
+        <input type="file" id="import-file" accept=".json" style="display:none" onchange="importData(this)">
     </div>
 </div>
 
@@ -352,7 +360,6 @@ function closeModal(id) {
     document.getElementById(id).classList.remove('open');
 }
 
-// Close on overlay click
 document.querySelectorAll('.modal-overlay').forEach(function(el) {
     el.addEventListener('click', function(e) {
         if (e.target === el) el.classList.remove('open');
@@ -375,7 +382,6 @@ function renderTenants() {
     var tbody = document.getElementById('tenant-list');
     var empty = document.getElementById('tenant-empty');
 
-    // 统计卡
     var totalRent = tenants.reduce(function(s,t){ return s + (Number(t.rent)||0); }, 0);
     var expiringSoon = tenants.filter(function(t){
         var d = daysUntil(t.end); return d !== null && d >= 0 && d <= 30;
@@ -413,8 +419,8 @@ function renderTenants() {
             '<td>' + cycleHtml + (t.annual ? '<br><span style="font-size:12px;color:#666">年租 ¥' + Number(t.annual).toLocaleString() + '</span>' : '') + '</td>' +
             '<td>' + (t.end ? fmtDate(t.end) + '<br>' + statusHtml : '—') + '</td>' +
             '<td>' +
-                '<button class="btn btn-secondary btn-sm" onclick="openTenantModal(\'' + t.id + \'\')" >编辑</button> ' +
-                '<button class="btn btn-danger btn-sm" onclick="deleteTenant(\'' + t.id + \'\')" >删除</button>' +
+                '<button class="btn btn-secondary btn-sm" data-id="' + t.id + '" onclick="openTenantModal(this.dataset.id)">编辑</button> ' +
+                '<button class="btn btn-danger btn-sm" data-id="' + t.id + '" onclick="deleteTenant(this.dataset.id)">删除</button>' +
             '</td>' +
         '</tr>';
     }).join('');
@@ -478,7 +484,6 @@ function deleteTenant(id) {
 
 // ── 租金记录 ──────────────────────────────────────────
 function syncRentFilters() {
-    // 租客下拉
     var tSel = document.getElementById('rent-filter-tenant');
     var curT = tSel.value;
     tSel.innerHTML = '<option value="">全部租客</option>' +
@@ -486,7 +491,6 @@ function syncRentFilters() {
             return '<option value="' + t.id + '"' + (curT === t.id ? ' selected' : '') + '>' + esc(t.name) + '（' + esc(t.room) + '）</option>';
         }).join('');
 
-    // 年份下拉
     var ySel = document.getElementById('rent-filter-year');
     var curY = ySel.value;
     var years = [];
@@ -497,7 +501,6 @@ function syncRentFilters() {
             return '<option value="' + y + '"' + (curY === y ? ' selected' : '') + '>' + y + '年</option>';
         }).join('');
 
-    // 新建记录时的租客选择器
     var rSel = document.getElementById('r-tenant');
     rSel.innerHTML = tenants.map(function(t){
         return '<option value="' + t.id + '">' + esc(t.name) + '（' + esc(t.room) + '）</option>';
@@ -540,7 +543,7 @@ function renderRent() {
             ? '<span class="badge-paid">已收款</span>'
             : '<span class="badge-unpaid">未收款</span>';
         var markBtn = r.status === 'unpaid'
-            ? '<button class="btn btn-success btn-sm" onclick="markPaid(\'' + r.id + \'\')" >标记已收</button> '
+            ? '<button class="btn btn-success btn-sm" data-id="' + r.id + '" onclick="markPaid(this.dataset.id)">标记已收</button> '
             : '';
         return '<tr>' +
             '<td>' + tName + '</td>' +
@@ -549,7 +552,7 @@ function renderRent() {
             '<td>¥' + Number(r.amount).toLocaleString() + '</td>' +
             '<td>' + cycleHtml + '</td>' +
             '<td>' + statusBadge + '</td>' +
-            '<td>' + markBtn + '<button class="btn btn-danger btn-sm" onclick="deleteRent(\'' + r.id + \'\')" >删除</button></td>' +
+            '<td>' + markBtn + '<button class="btn btn-danger btn-sm" data-id="' + r.id + '" onclick="deleteRent(this.dataset.id)">删除</button></td>' +
         '</tr>';
     }).join('');
 
@@ -676,6 +679,66 @@ function updateContractBadge() {
     } else {
         tab.textContent = '合同提醒';
     }
+}
+
+// ── 数据备份与恢复 ────────────────────────────────────────
+function exportData() {
+    var payload = {
+        version: 1,
+        exportedAt: new Date().toISOString(),
+        tenants: tenants,
+        rentRecords: rentRecords
+    };
+    var json = JSON.stringify(payload, null, 2);
+    var blob = new Blob([json], { type: 'application/json' });
+    var url  = URL.createObjectURL(blob);
+    var a    = document.createElement('a');
+    var now  = new Date();
+    var ds   = now.getFullYear() + '-'
+             + String(now.getMonth()+1).padStart(2,'0') + '-'
+             + String(now.getDate()).padStart(2,'0');
+    a.href     = url;
+    a.download = '租房数据备份_' + ds + '.json';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    showToast('✓ 数据已导出');
+}
+
+function importData(input) {
+    var file = input.files[0];
+    if (!file) return;
+    var reader = new FileReader();
+    reader.onload = function(e) {
+        try {
+            var data = JSON.parse(e.target.result);
+            if (!Array.isArray(data.tenants) || !Array.isArray(data.rentRecords)) {
+                alert('文件格式错误，请选择正确的备份文件');
+                input.value = '';
+                return;
+            }
+            var msg = '导入将覆盖当前所有数据\n共 ' + data.tenants.length
+                    + ' 名租客，' + data.rentRecords.length
+                    + ' 条租金记录\n\n确认继续？';
+            if (!confirm(msg)) {
+                input.value = '';
+                return;
+            }
+            tenants     = data.tenants;
+            rentRecords = data.rentRecords;
+            dbSet('rm_tenants', tenants);
+            dbSet('rm_rents', rentRecords);
+            renderTenants();
+            syncRentFilters();
+            updateContractBadge();
+            showToast('✓ 导入成功：' + tenants.length + ' 名租客，' + rentRecords.length + ' 条记录');
+        } catch(err) {
+            alert('文件解析失败，请确保选择了正确的 JSON 备份文件');
+        }
+        input.value = '';
+    };
+    reader.readAsText(file, 'UTF-8');
 }
 
 // XSS 防护
