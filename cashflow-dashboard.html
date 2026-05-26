@@ -156,6 +156,17 @@
         .toast { position: fixed; bottom: 24px; right: 24px; background: #1d1d1f; color: white; padding: 11px 18px; border-radius: 10px; font-size: 13px; z-index: 200; opacity: 0; transform: translateY(8px); transition: all 0.25s; pointer-events: none; }
         .toast.show { opacity: 1; transform: translateY(0); }
 
+        /* ── 生存保障线 ── */
+        .sv-track { height: 16px; background: #f0f0f0; border-radius: 8px; position: relative; }
+        .sv-fill  { height: 100%; border-radius: 8px; transition: width 0.5s ease; }
+        .survival-status { font-size: 13px; font-weight: 600; padding: 5px 14px; border-radius: 20px; white-space: nowrap; }
+        .sv-status-red    { background: #ffebee; color: #c62828; }
+        .sv-status-orange { background: #fff3e0; color: #e65100; }
+        .sv-status-green  { background: #e8f5e9; color: #2e7d32; }
+        .sv-status-blue   { background: #e3f2fd; color: #1565c0; }
+        .sv-monthly-input { width: 90px; padding: 3px 8px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px; font-weight: 600; outline: none; text-align: right; transition: border-color 0.15s; }
+        .sv-monthly-input:focus { border-color: #007aff; box-shadow: 0 0 0 3px rgba(0,122,255,0.1); }
+
         @media (max-width: 900px) {
             .stats { grid-template-columns: repeat(2, 1fr); }
             .tracks-grid { grid-template-columns: repeat(2, 1fr); }
@@ -199,6 +210,24 @@
 
         <!-- 4 stat cards -->
         <div class="stats" id="fund-stats"></div>
+
+        <!-- 生存保障线 -->
+        <div class="card" id="sv-card">
+            <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:16px">
+                <div>
+                    <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px">
+                        <span style="font-size:16px;font-weight:600">🛡️ 生存保障线</span>
+                        <span id="sv-status-badge"></span>
+                    </div>
+                    <div style="font-size:13px;color:#888;display:flex;align-items:center;gap:4px">
+                        月均基础支出：<input type="number" id="sv-monthly-exp" class="sv-monthly-input" min="1" onblur="saveSurvivalExpense()"> 元
+                    </div>
+                </div>
+            </div>
+            <!-- bar area: padding-top reserves space for the labels above the bar -->
+            <div style="position:relative;padding-top:22px;margin-bottom:14px" id="sv-bar-wrap"></div>
+            <div id="sv-info-text" style="font-size:13px;color:#555;line-height:2"></div>
+        </div>
 
         <!-- 可用资金 -->
         <div class="card">
@@ -432,7 +461,7 @@ var STORAGE_KEY = 'cf_dash_v1';
 
 // ── 默认数据 ──────────────────────────────────────────
 var DEFAULT_DATA = {
-    funds: { incoming: 9000, wechat: 2000, nextMonthIncome: 0 },
+    funds: { incoming: 9000, wechat: 2000, nextMonthIncome: 0, monthlyExpense: 5000 },
     frozen: [
         { id:'f1', name:'工行卡', amount:3500, reason:'房贷问题' }
     ],
@@ -554,6 +583,9 @@ function renderFunds() {
 
     // Compare
     renderCompare();
+
+    // Survival line
+    renderSurvivalLine();
 }
 
 function saveFundAmounts() {
@@ -564,6 +596,7 @@ function saveFundAmounts() {
     document.getElementById('fund-total-val').textContent = fmtMoney(available);
     renderStats();
     renderCompare();
+    renderSurvivalLine();
     showToast('✓ 已保存');
 }
 
@@ -903,6 +936,64 @@ function saveNextMonthIncome() {
     saveData();
     renderStats();
     renderCompare();
+    showToast('✓ 已保存');
+}
+
+// ── 生存保障线 ──────────────────────────────────────────
+function renderSurvivalLine() {
+    var available  = (Number(data.funds.incoming)||0) + (Number(data.funds.wechat)||0);
+    var monthlyExp = Number(data.funds.monthlyExpense) || 5000;
+
+    var expInput = document.getElementById('sv-monthly-exp');
+    if (expInput) expInput.value = monthlyExp;
+
+    var months  = monthlyExp > 0 ? available / monthlyExp : 0;
+    var maxMo   = 6;
+    var pct     = Math.min(months / maxMo, 1.0) * 100;
+    var t3pct   = (3 / maxMo) * 100; // 50%
+
+    // fill color by tier
+    var fillColor = months <= 1 ? '#ff3b30'
+                  : months <= 3 ? '#ff9500'
+                  : months <= 6 ? '#34c759'
+                  : '#007aff';
+
+    // Bar HTML: labels at top:0, track in flow after padding-top:22px, ticks overlay the track
+    var barHtml =
+        '<div style="position:absolute;top:0;left:' + t3pct + '%;transform:translateX(-50%);font-size:11px;color:#aaa;white-space:nowrap">3个月</div>' +
+        '<div style="position:absolute;top:0;right:0;font-size:11px;color:#aaa;white-space:nowrap">6个月</div>' +
+        '<div class="sv-track">' +
+            '<div class="sv-fill" style="width:' + pct + '%;background:' + fillColor + '"></div>' +
+        '</div>' +
+        '<div style="position:absolute;left:' + t3pct + '%;top:22px;width:2px;height:16px;background:rgba(0,0,0,0.15);transform:translateX(-50%);pointer-events:none"></div>' +
+        '<div style="position:absolute;right:0;top:22px;width:2px;height:16px;background:rgba(0,0,0,0.15);pointer-events:none"></div>';
+
+    document.getElementById('sv-bar-wrap').innerHTML = barHtml;
+
+    // Target date: days = months * 30.4
+    var targetDate = new Date(Date.now() + Math.round(months * 30.4) * 86400000);
+    var targetStr  = targetDate.getFullYear() + '年' + (targetDate.getMonth() + 1) + '月';
+
+    document.getElementById('sv-info-text').innerHTML =
+        '当前可用 <strong>' + fmtMoney(available) + '</strong>' +
+        ' &nbsp;→&nbsp; 可覆盖 <strong>' + months.toFixed(1) + ' 个月</strong>' +
+        ' &nbsp;→&nbsp; 预计保障至 <strong>' + targetStr + '</strong>';
+
+    var statusHtml =
+        months <= 1 ? '<span class="survival-status sv-status-red">🔴 需立即行动</span>'
+      : months <= 3 ? '<span class="survival-status sv-status-orange">🟡 需要关注</span>'
+      : months <= 6 ? '<span class="survival-status sv-status-green">🟢 基本稳定</span>'
+      :               '<span class="survival-status sv-status-blue">💎 财务自由</span>';
+
+    document.getElementById('sv-status-badge').innerHTML = statusHtml;
+}
+
+function saveSurvivalExpense() {
+    var val = Number(document.getElementById('sv-monthly-exp').value) || 5000;
+    if (val < 1) val = 1;
+    data.funds.monthlyExpense = val;
+    saveData();
+    renderSurvivalLine();
     showToast('✓ 已保存');
 }
 
