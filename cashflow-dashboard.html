@@ -951,8 +951,8 @@ function renderSurvivalLine() {
     var maxMo   = 6;
     var pct     = Math.min(months / maxMo, 1.0) * 100;
     // fill color by tier
-    var fillColor = months <= 1 ? '#ff3b30'
-                  : months <= 3 ? '#ff9500'
+    var fillColor = months <= 2 ? '#ff3b30'
+                  : months <= 4 ? '#ff9500'
                   : months <= 6 ? '#34c759'
                   : '#007aff';
 
