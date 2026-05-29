@@ -242,7 +242,7 @@
                     <input type="number" id="f-wechat" placeholder="0" onblur="saveFundAmounts()">
                 </div>
             </div>
-            <div class="fund-total">合计可动用现金：<span id="fund-total-val">¥0</span></div>
+            <div class="fund-total">合计可动用现金（已扣已付支出）：<span id="fund-total-val">¥0</span></div>
         </div>
 
         <!-- 冻结资金 -->
@@ -542,6 +542,23 @@ function esc(s) {
     return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
+function expenseTotalByStatus(status) {
+    return data.expenses.filter(function(e){ return e.status === status; })
+        .reduce(function(s,e){ return s + (Number(e.amount)||0); }, 0);
+}
+
+function getGrossFunds() {
+    return (Number(data.funds.incoming)||0) + (Number(data.funds.wechat)||0);
+}
+
+function getAvailableFunds() {
+    return getGrossFunds() - expenseTotalByStatus('paid');
+}
+
+function renderFundTotal() {
+    document.getElementById('fund-total-val').textContent = fmtMoney(getAvailableFunds());
+}
+
 // Modal overlay click to close
 document.querySelectorAll('.modal-overlay').forEach(function(el) {
     el.addEventListener('click', function(e) {
@@ -566,8 +583,7 @@ function renderFunds() {
     document.getElementById('f-incoming').value = data.funds.incoming || 0;
     document.getElementById('f-wechat').value   = data.funds.wechat   || 0;
 
-    var available = (Number(data.funds.incoming)||0) + (Number(data.funds.wechat)||0);
-    document.getElementById('fund-total-val').textContent = fmtMoney(available);
+    renderFundTotal();
 
     // Frozen
     renderFrozen();
@@ -592,8 +608,7 @@ function saveFundAmounts() {
     data.funds.incoming = Number(document.getElementById('f-incoming').value) || 0;
     data.funds.wechat   = Number(document.getElementById('f-wechat').value)   || 0;
     saveData();
-    var available = data.funds.incoming + data.funds.wechat;
-    document.getElementById('fund-total-val').textContent = fmtMoney(available);
+    renderFundTotal();
     renderStats();
     renderCompare();
     renderSurvivalLine();
@@ -601,7 +616,8 @@ function saveFundAmounts() {
 }
 
 function renderStats() {
-    var available = (Number(data.funds.incoming)||0) + (Number(data.funds.wechat)||0);
+    var available = getAvailableFunds();
+    var paidTotal = expenseTotalByStatus('paid');
     var frozen    = data.frozen.reduce(function(s,f){ return s + (Number(f.amount)||0); }, 0);
 
     var potMin = data.potentials.filter(function(p){ return p.status !== 'received'; })
@@ -609,11 +625,8 @@ function renderStats() {
     var potMax = data.potentials.filter(function(p){ return p.status !== 'received'; })
                      .reduce(function(s,p){ return s + (Number(p.amountMax)||0); }, 0);
 
-    var pendingTotal = data.expenses.filter(function(e){ return e.status === 'pending'; })
-                           .reduce(function(s,e){ return s + (Number(e.amount)||0); }, 0);
-    var lockedTotal  = data.expenses.filter(function(e){ return e.status === 'locked'; })
-                           .reduce(function(s,e){ return s + (Number(e.amount)||0); }, 0);
-    var netRemain = available - pendingTotal - lockedTotal;
+    var pendingTotal = expenseTotalByStatus('pending');
+    var netRemain = available;
 
     var potStr = potMin === potMax ? fmtMoney(potMin) : fmtMoney(potMin) + '~' + fmtMoney(potMax);
 
@@ -621,7 +634,7 @@ function renderStats() {
         '<div class="stat-card green">' +
             '<div class="sc-label">🟢 可动用现金</div>' +
             '<div class="sc-value">' + fmtMoney(available) + '</div>' +
-            '<div class="sc-sub">进账 + 微信余额</div>' +
+            '<div class="sc-sub">进账 + 微信余额 - 已付支出（' + fmtMoney(paidTotal) + '）</div>' +
         '</div>' +
         '<div class="stat-card red">' +
             '<div class="sc-label">🔴 冻结资金</div>' +
@@ -636,7 +649,7 @@ function renderStats() {
         '<div class="stat-card blue">' +
             '<div class="sc-label">实际剩余</div>' +
             '<div class="sc-value" style="color:' + (netRemain >= 0 ? '#34c759' : '#ff3b30') + '">' + fmtMoney(netRemain) + '</div>' +
-            '<div class="sc-sub">可动用 - 待付 - 锁定</div>' +
+            '<div class="sc-sub">待付 ' + fmtMoney(pendingTotal) + ' 单独显示，未扣减</div>' +
         '</div>';
 }
 
@@ -888,8 +901,10 @@ function saveExpense() {
     saveData();
     closeModal('expense-modal');
     renderExpenses();
+    renderFundTotal();
     renderStats();
     renderCompare();
+    renderSurvivalLine();
     showToast('✓ 已保存');
 }
 
@@ -898,28 +913,28 @@ function deleteExpense(id) {
     data.expenses = data.expenses.filter(function(e){ return e.id !== id; });
     saveData();
     renderExpenses();
+    renderFundTotal();
     renderStats();
     renderCompare();
+    renderSurvivalLine();
     showToast('✓ 已删除');
 }
 
 // ── 本月 vs 下月对比 ──────────────────────────────────────────
 function renderCompare() {
-    var available = (Number(data.funds.incoming)||0) + (Number(data.funds.wechat)||0);
-    var pendingTotal = data.expenses.filter(function(e){ return e.status === 'pending'; })
-                           .reduce(function(s,e){ return s + (Number(e.amount)||0); }, 0);
-    var lockedTotal  = data.expenses.filter(function(e){ return e.status === 'locked'; })
-                           .reduce(function(s,e){ return s + (Number(e.amount)||0); }, 0);
-    var thisMonthNet = available - pendingTotal;
+    var available = getAvailableFunds();
+    var pendingTotal = expenseTotalByStatus('pending');
+    var lockedTotal  = expenseTotalByStatus('locked');
+    var thisMonthNet = available;
     var nextMonthIncome = Number(data.funds.nextMonthIncome) || 0;
     var nextEstimate = thisMonthNet + nextMonthIncome - lockedTotal;
 
     document.getElementById('compare-grid').innerHTML =
         '<div class="compare-col">' +
             '<h3>本月</h3>' +
-            '<div class="compare-row"><span>现有现金</span><span class="cr-pos">' + fmtMoney(available) + '</span></div>' +
-            '<div class="compare-row"><span>待付支出</span><span class="cr-neg">- ' + fmtMoney(pendingTotal) + '</span></div>' +
-            '<div class="compare-row"><span>本月净余</span><span style="color:' + (thisMonthNet>=0?'#34c759':'#ff3b30') + ';font-weight:700">' + fmtMoney(thisMonthNet) + '</span></div>' +
+            '<div class="compare-row"><span>可动用现金</span><span class="cr-pos">' + fmtMoney(available) + '</span></div>' +
+            '<div class="compare-row"><span>待付支出（未扣减）</span><span class="cr-neg">' + fmtMoney(pendingTotal) + '</span></div>' +
+            '<div class="compare-row"><span>本月实时余额</span><span style="color:' + (thisMonthNet>=0?'#34c759':'#ff3b30') + ';font-weight:700">' + fmtMoney(thisMonthNet) + '</span></div>' +
         '</div>' +
         '<div class="compare-col">' +
             '<h3>下月</h3>' +
@@ -941,7 +956,7 @@ function saveNextMonthIncome() {
 
 // ── 生存保障线 ──────────────────────────────────────────
 function renderSurvivalLine() {
-    var available  = (Number(data.funds.incoming)||0) + (Number(data.funds.wechat)||0);
+    var available  = getAvailableFunds();
     var monthlyExp = Number(data.funds.monthlyExpense) || 5000;
 
     var expInput = document.getElementById('sv-monthly-exp');
