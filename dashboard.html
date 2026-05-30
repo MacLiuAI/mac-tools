@@ -685,5 +685,312 @@ function deleteTodo(id) {
 // ── Init ─────────────────────────────────────────────
 renderAll();
 </script>
+
+    <!-- 📝 文稿库模块 -->
+    <style>
+        .manuscript-section { padding: 20px 24px; max-width: 1200px; margin: 0 auto 40px; }
+        .manuscript-section h2 { font-size: 18px; font-weight: 700; margin-bottom: 16px; color: #1d1d1f; }
+        .ms-tabs { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }
+        .ms-tab { padding: 7px 16px; border: 1.5px solid #e5e5e5; border-radius: 20px; background: white; font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.15s; font-family: inherit; color: #666; }
+        .ms-tab.active { background: #1d1d1f; color: white; border-color: #1d1d1f; }
+        .ms-tab:hover:not(.active) { border-color: #007aff; color: #007aff; }
+        .ms-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 16px; }
+        .ms-card { background: white; border-radius: 12px; padding: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); border-top: 3px solid #ccc; display: none; }
+        .ms-card.show { display: block; }
+        .ms-card.xhs { border-top-color: #ff2442; }
+        .ms-card.douyin { border-top-color: #000; }
+        .ms-card.huashu { border-top-color: #ff9500; }
+        .ms-card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+        .ms-platform { font-size: 11px; font-weight: 600; padding: 3px 8px; border-radius: 20px; }
+        .ms-platform.xhs { background: #ffe0e5; color: #ff2442; }
+        .ms-platform.douyin { background: #e8e8e8; color: #000; }
+        .ms-platform.huashu { background: #fff3e0; color: #e65100; }
+        .ms-card h3 { font-size: 14px; font-weight: 700; margin-bottom: 10px; line-height: 1.4; }
+        .ms-card pre { font-family: -apple-system, 'PingFang SC', sans-serif; font-size: 12.5px; line-height: 1.7; color: #444; white-space: pre-wrap; word-break: break-all; margin: 0; background: #f9f9f9; border-radius: 8px; padding: 12px; max-height: 320px; overflow-y: auto; }
+        .ms-copy-btn { background: none; border: 1px solid #e5e5e5; color: #666; border-radius: 6px; padding: 4px 10px; font-size: 11px; cursor: pointer; font-family: inherit; transition: all 0.15s; }
+        .ms-copy-btn:hover { background: #007aff; color: white; border-color: #007aff; }
+        </style>
+
+    <section class="manuscript-section">
+          <h2>📝 内容文稿库</h2>
+      <div class="ms-tabs">
+          <button class="ms-tab active" onclick="filterMs('all')">全部 (7)</button>button>
+          <button class="ms-tab" onclick="filterMs('xhs')">小红书 (2)</button>button>
+          <button class="ms-tab" onclick="filterMs('douyin')">抖音 (2)</button>button>
+          <button class="ms-tab" onclick="filterMs('huashu')">招生话术 (3)</button>button>
+      </div>div>
+      <div class="ms-grid" id="ms-grid">
+      
+          <!-- A1-1 小红书第1篇 -->
+          <div class="ms-card xhs show" data-cat="xhs">
+                <div class="ms-card-header">
+                        <span class="ms-platform xhs">小红书</span>span>
+                        <button class="ms-copy-btn" onclick="copyMs('ms1')">复制</button>button>
+                </div>div>
+                <h3>【A1-1】带娃运动3个月，我发现了一件事</h3>
+                <pre id="ms1">【带娃运动3个月，我发现了一件事】
+                
+                开口白（站在操场/室内）：
+                "三个月前，我把儿子送去了一家机构上体育课。
+                今天，我想告诉你我发现的一件事——"
+                
+                镜头切：孩子上课画面
+                
+                旁白/字幕：
+                上第1节课：他站在角落不敢动
+                第3周：开始主动跑过来问老师
+                第6周：在班里第一个完成了仰卧起坐考核
+                
+                那一刻我才明白——
+                孩子不是不爱运动，
+                是没遇到对的方式。
+                
+                结尾钩子：
+                "如果你的孩子也不爱动，
+                评论区告诉我，我告诉你我们怎么做的。"
+                
+                ---
+                📌 配图建议：孩子上课前后对比截图、课堂真实场景
+                📌 话题标签：#少儿体适能 #体育外卖 #小安康 #宝爸育儿 #儿童运动</pre>pre>
+          </div>div>
+      
+          <!-- A1-2 小红书第2篇 -->
+          <div class="ms-card xhs show" data-cat="xhs">
+                <div class="ms-card-header">
+                        <span class="ms-platform xhs">小红书</span>span>
+                        <button class="ms-copy-btn" onclick="copyMs('ms2')">复制</button>button>
+                </div>div>
+                <h3>【A1-2】为什么我不送孩子去健身房</h3>
+                <pre id="ms2">【为什么我不送孩子去健身房？】
+                
+                开口白（镜头对着自己）：
+                "很多家长问我，为什么不直接送孩子去健身房练？
+                今天我来说清楚。"
+                
+                第1个原因：
+                健身房的器械设计给成人，
+                孩子用容易受伤，更容易挫败。
+                
+                第2个原因：
+                没有专门的儿童运动体系，
+                教练不懂怎么和孩子沟通。
+                
+                第3个原因：
+                孩子需要的是"成就感循环"，
+                不是重复枯燥的动作。
+                
+                我们做的事：
+                → 上门，在他熟悉的空间建立运动习惯
+                → 小安康（儿子）参与设计每次课的内容
+                → 每节课都有他能完成的小目标
+                
+                结尾：
+                "体育是送给孩子最划算的礼物。
+                如果你也认同，点个赞。"
+                
+                ---
+                📌 话题标签：#少儿体适能 #儿童运动 #体育外卖 #私教上门 #宝爸人设</pre>pre>
+          </div>div>
+      
+          <!-- A2-1 抖音第1篇 -->
+          <div class="ms-card douyin show" data-cat="douyin">
+                <div class="ms-card-header">
+                        <span class="ms-platform douyin">抖音</span>span>
+                        <button class="ms-copy-btn" onclick="copyMs('ms3')">复制</button>button>
+                </div>div>
+                <h3>【A2-1】体育外卖，正在改变中国体育培训</h3>
+                <pre id="ms3">【体育外卖，正在改变中国体育培训】
+                
+                黄金3秒（强冲突开场）：
+                "中国有3000万孩子需要体育老师，
+                但90%的体育老师——都坐在学校里等着。"
+                
+                场景1（镜头：教练背着包走进社区）：
+                "我叫陈少华，是一名上门体育私教。
+                这是我的第37个孩子。"
+                
+                场景2（展示上门服务）：
+                不用去机构，不用排课，
+                预约→上门→开课，最快2小时。
+                我们叫它——体育外卖。
+                
+                场景3（数据/结果）：
+                "这个模式，已经帮助了[X]个家庭，
+                平均每个孩子3个月，体能测评提升40%。"
+                
+                结尾口播：
+                "你家孩子体育怎么样？
+                评论告诉我，我免费给你出一套方案。"
+                
+                ---
+                📌 节奏：快剪，每段不超过5秒
+                📌 BGM：有节奏感的电子音乐
+                📌 话题标签：#体育外卖 #上门私教 #少儿体适能 #陈教练</pre>pre>
+          </div>div>
+      
+          <!-- A2-2 抖音第2篇 -->
+          <div class="ms-card douyin show" data-cat="douyin">
+                <div class="ms-card-header">
+                        <span class="ms-platform douyin">抖音</span>span>
+                        <button class="ms-copy-btn" onclick="copyMs('ms4')">复制</button>button>
+                </div>div>
+                <h3>【A2-2】陈教练的一天（场景钉子版）</h3>
+                <pre id="ms4">【陈教练的一天】
+                
+                早上8:00（镜头：教练准备装备）：
+                字幕："今天，4个孩子，4个家庭。"
+                
+                上午10:00（到第1家）：
+                "这是小明，7岁，跑步姿势不对。
+                我们今天专门练起跑。"
+                → 孩子跑步画面
+                
+                下午2:00（到第2家）：
+                "这个小女孩想学跳绳，
+                但是协调性不够。
+                我给她设计了一个4周训练计划。"
+                
+                傍晚5:30（训练结束）：
+                "今天最开心的事——
+                小明第一次连续跑了800米。
+                他自己都不相信。"
+                
+                教练说（镜头：对着镜头直视）：
+                "我做这件事，
+                不是因为它有多赚钱，
+                是因为每次看到他们突破自己，
+                我觉得这个职业值了。"
+                
+                ---
+                📌 拍摄提示：真实跟拍，不要摆拍
+                📌 结尾加上预约方式引导
+                📌 话题标签：#体育外卖 #上门私教 #陈教练的一天 #少儿体适能</pre>pre>
+          </div>div>
+      
+          <!-- A3-1 招生话术-私信版 -->
+          <div class="ms-card huashu show" data-cat="huashu">
+                <div class="ms-card-header">
+                        <span class="ms-platform huashu">招生话术</span>span>
+                        <button class="ms-copy-btn" onclick="copyMs('ms5')">复制</button>button>
+                </div>div>
+                <h3>【A3-1】私信版话术</h3>
+                <pre id="ms5">【私信话术模板】
+                
+                第一条（破冰）：
+                "X爸/X妈你好～我是陈教练，
+                在【群名/社区名】看到你聊到孩子运动的事，
+                想来认识一下😊"
+                
+                第二条（价值钩子）：
+                "我们最近在做少儿体适能体验课，
+                上门1对1，针对孩子具体情况设计内容，
+                不用带孩子出门，方便很多。"
+                
+                第三条（降门槛）：
+                "最近有几个体验名额，
+                第一次上课我们不收费，
+                你觉得值得试试吗？"
+                
+                ---
+                📌 使用场景：家长群、朋友圈互动后私信跟进
+                📌 注意：先破冰建立关系，不要上来就推课
+                📌 成功率提升技巧：在第二条提到孩子的具体问题（如不爱运动/协调性差）</pre>pre>
+          </div>div>
+      
+          <!-- A3-2 招生话术-朋友圈版 -->
+          <div class="ms-card huashu show" data-cat="huashu">
+                <div class="ms-card-header">
+                        <span class="ms-platform huashu">招生话术</span>span>
+                        <button class="ms-copy-btn" onclick="copyMs('ms6')">复制</button>button>
+                </div>div>
+                <h3>【A3-2】朋友圈版话术</h3>
+                <pre id="ms6">【朋友圈发文模板】
+                
+                文案1（结果型）：
+                "3个月，一个不爱动的孩子，
+                开始主动问我什么时候上课了。
+                体育这件事，真的从来不是孩子的问题。
+                → 体验课报名，评论区扣1"
+                
+                文案2（痛点型）：
+                "坦白说——
+                我送孩子去机构学了半年体育，
+                进步不明显，而且他越来越抗拒。
+                后来我们换了上门私教，
+                第一节课他就说'这个老师好玩'。
+                如果你家孩子也有类似的情况，
+                评论区聊聊 👇"
+                
+                文案3（稀缺型）：
+                "本月还剩3个体验名额（上门1对1，免费）
+                西安/渭南地区的宝爸宝妈看过来～
+                私信'体验'了解详情"
+                
+                ---
+                📌 建议每3-4天发一条，交替使用
+                📌 配图：真实上课照片优先，效果好于海报</pre>pre>
+          </div>div>
+      
+          <!-- A3-3 招生话术-群发版 -->
+          <div class="ms-card huashu show" data-cat="huashu">
+                <div class="ms-card-header">
+                        <span class="ms-platform huashu">招生话术</span>span>
+                        <button class="ms-copy-btn" onclick="copyMs('ms7')">复制</button>button>
+                </div>div>
+                <h3>【A3-3】群发版话术</h3>
+                <pre id="ms7">【群发消息模板】
+                
+                版本1（简洁版，适合冷启动）：
+                "X爸/妈你好，我是陈教练。
+                我们在做少儿体适能的上门私教，
+                现在有免费体验名额，
+                方便的话我发你详细介绍？"
+                
+                版本2（场景版，适合精准用户）：
+                "X爸/妈你好～
+                之前看到你说孩子[不爱运动/体育成绩不好/协调性弱]，
+                我们专门做这类问题的上门私教，
+                1对1，上门，第一课不收费。
+                有兴趣了解吗？"
+                
+                版本3（限时版，适合已有意向用户）：
+                "X爸/妈，本周还有最后2个免费体验名额，
+                上门1对1课，专门针对[孩子问题]设计。
+                这周末方便吗？"
+                
+                ---
+                📌 群发频率：每个潜在用户最多发2-3次，间隔3天
+                📌 记录跟进状态，避免重复打扰
+                📌 成功率关键：第二条话术中提到具体孩子问题，个性化率↑</pre>pre>
+          </div>div>
+      
+      </div>div>
+    </section>section>
+
+<script>
+    function filterMs(cat) {
+          document.querySelectorAll('.ms-tab').forEach(t => t.classList.remove('active'));
+          event.target.classList.add('active');
+          document.querySelectorAll('.ms-card').forEach(c => {
+                  c.classList.toggle('show', cat === 'all' || c.dataset.cat === cat);
+          });
+    }
+    function copyMs(id) {
+          var el = document.getElementById(id);
+          if (!el) return;
+          navigator.clipboard.writeText(el.textContent).then(function() {
+                  showToast('✓ 已复制到剪贴板');
+          }).catch(function() {
+                  var r = document.createRange();
+                  r.selectNode(el);
+                  window.getSelection().removeAllRanges();
+                  window.getSelection().addRange(r);
+                  document.execCommand('copy');
+                  showToast('✓ 已复制到剪贴板');
+          });
+    }
+</script>
+</script></h3></h2>
+    </style>
 </body>
 </html>
