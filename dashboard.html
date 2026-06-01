@@ -8,7 +8,6 @@
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { font-family: -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif; background: #f5f5f7; color: #1d1d1f; min-height: 100vh; }
 
-
         /* Header */
         .header { background: #ffffff; color: #1d1d1f; padding: 16px 24px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
         .header h1 { font-size: 20px; font-weight: 600; }
@@ -19,10 +18,8 @@
         .btn-refresh { background: rgba(0,0,0,0.06); color: #1d1d1f; border: 1px solid rgba(0,0,0,0.15); font-size: 13px; padding: 7px 13px; border-radius: 8px; cursor: pointer; transition: background 0.15s; font-family: inherit; }
         .btn-refresh:hover { background: rgba(0,0,0,0.1); }
 
-
         /* Content */
         .content { padding: 20px 24px; max-width: 1200px; margin: 0 auto; }
-
 
         /* Stat Cards */
         .stats { display: grid; grid-template-columns: repeat(4,1fr); gap: 16px; margin-bottom: 20px; }
@@ -37,3 +34,709 @@
         .stat-card.green  .sc-value { color: #34c759; }
         .stat-card.blue   .sc-value { color: #007aff; }
         .stat-card.orange .sc-value { color: #ff9500; }
+        .stat-card.purple .sc-value { color: #af52de; }
+
+        /* Main grid */
+        .main-grid { display: grid; grid-template-columns: 3fr 2fr; gap: 16px; margin-bottom: 16px; }
+        .left-col  .card { margin-bottom: 16px; }
+        .left-col  .card:last-child { margin-bottom: 0; }
+        .right-col .card { margin-bottom: 16px; }
+        .right-col .card:last-child { margin-bottom: 0; }
+
+        /* Cards */
+        .card { background: white; border-radius: 12px; padding: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+        .card-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 14px; gap: 8px; }
+        .card-title { font-size: 15px; font-weight: 600; }
+        .card-meta  { font-size: 12px; color: #888; margin-top: 2px; }
+
+        /* Buttons */
+        .btn { display: inline-flex; align-items: center; gap: 4px; padding: 6px 12px; border: none; border-radius: 7px; cursor: pointer; font-size: 13px; font-weight: 500; transition: all 0.15s; font-family: inherit; }
+        .btn-primary { background: #007aff; color: white; }
+        .btn-primary:hover { background: #0062cc; }
+        .btn-sm { padding: 4px 9px; font-size: 12px; border-radius: 6px; }
+        .btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+        /* Tables */
+        .table-wrap { overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; font-size: 13px; }
+        th { text-align: left; padding: 8px 12px; background: #f5f5f7; color: #666; font-weight: 500; font-size: 11px; }
+        td { padding: 10px 12px; border-bottom: 1px solid #f0f0f0; vertical-align: middle; }
+        tr:last-child td { border-bottom: none; }
+
+        /* Badges */
+        .badge { display: inline-block; padding: 2px 8px; border-radius: 20px; font-size: 11px; font-weight: 500; }
+        .b-green  { background: #e8f5e9; color: #2e7d32; }
+        .b-orange { background: #fff3e0; color: #e65100; }
+        .b-red    { background: #ffebee; color: #c62828; }
+        .b-yellow { background: #fff9e0; color: #b8860b; }
+        .b-blue   { background: #e3f2fd; color: #1565c0; }
+        .b-gray   { background: #f5f5f5; color: #666; }
+
+        /* Business rows */
+        .biz-row { display: flex; align-items: center; justify-content: space-between; padding: 9px 0; border-bottom: 1px solid #f5f5f5; }
+        .biz-row:last-child { border-bottom: none; padding-bottom: 0; }
+        .biz-label { font-size: 13px; color: #666; flex-shrink: 0; }
+        .biz-val   { display: flex; align-items: center; gap: 4px; }
+        .biz-unit  { font-size: 12px; color: #aaa; }
+
+        /* Inline editable inputs */
+        .ie { border: none; background: transparent; font-size: 15px; font-weight: 600; color: #1d1d1f; text-align: right; outline: none; border-bottom: 1px dashed transparent; transition: border-color 0.15s, background 0.15s; font-family: inherit; cursor: text; }
+        .ie:hover  { border-bottom-color: #ccc; }
+        .ie:focus  { border-bottom-color: #007aff; background: #f5f9ff; border-radius: 3px; }
+        .ie.w-sm   { width: 52px; }
+        .ie.w-md   { width: 80px; }
+        .ie.w-lg   { width: 130px; font-size: 13px; font-weight: 400; }
+        .ie.w-full { width: 100%; font-size: 13px; font-weight: 400; text-align: left; }
+        input[type=number].ie::-webkit-inner-spin-button { opacity: 0.3; }
+
+        /* P1 status select */
+        .p1-select { border: none; outline: none; cursor: pointer; font-size: 12px; font-weight: 600; padding: 3px 8px; border-radius: 20px; font-family: inherit; transition: background 0.15s; }
+        .p1-focus-wrap { margin-top: 10px; padding: 10px 12px; background: #f5f9ff; border-left: 3px solid #007aff; border-radius: 0 8px 8px 0; }
+        .p1-focus-lbl  { font-size: 11px; color: #007aff; margin-bottom: 4px; }
+
+        /* Cash flow rows */
+        .cf-row { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; font-size: 13px; color: #444; }
+        .cf-divider { border: none; border-top: 1px solid #f0f0f0; margin: 4px 0; }
+        .cf-total { font-weight: 700; font-size: 14px; }
+        .pos { color: #34c759; font-weight: 600; }
+        .neg { color: #ff3b30; font-weight: 600; }
+
+        /* Todo */
+        .todo-add { display: flex; gap: 8px; margin-bottom: 12px; }
+        .todo-add input[type=text] { flex: 1; padding: 8px 12px; border: 1px solid #e5e5e5; border-radius: 8px; font-size: 13px; outline: none; font-family: inherit; }
+        .todo-add input[type=text]:focus   { border-color: #007aff; }
+        .todo-add input[type=text]:disabled { background: #f9f9f9; color: #aaa; }
+        .todo-list { display: flex; flex-direction: column; gap: 6px; }
+        .todo-item { display: flex; align-items: center; gap: 10px; padding: 9px 12px; background: #fafafa; border-radius: 8px; }
+        .todo-item.done { opacity: 0.45; }
+        .todo-item input[type=checkbox] { width: 16px; height: 16px; cursor: pointer; accent-color: #007aff; flex-shrink: 0; }
+        .ti-text { flex: 1; font-size: 13px; }
+        .todo-item.done .ti-text { text-decoration: line-through; }
+        .ti-del { background: none; border: none; color: #ccc; cursor: pointer; font-size: 14px; flex-shrink: 0; padding: 0 4px; line-height: 1; }
+        .ti-del:hover { color: #ff3b30; }
+
+        /* Empty / Toast */
+        .empty { text-align: center; padding: 20px; color: #bbb; font-size: 13px; }
+        .toast { position: fixed; bottom: 24px; right: 24px; background: #1d1d1f; color: white; padding: 10px 16px; border-radius: 10px; font-size: 13px; z-index: 200; opacity: 0; transform: translateY(8px); transition: all 0.25s; pointer-events: none; }
+        .toast.show { opacity: 1; transform: translateY(0); }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .stats { grid-template-columns: repeat(2,1fr); }
+            .main-grid { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 600px) {
+            .content { padding: 14px; }
+            .stats { grid-template-columns: 1fr 1fr; }
+            .sc-value { font-size: 20px; }
+            .ie.w-lg  { width: 100px; }
+        }
+
+
+        /* Apple global navigation + dark visual refresh */
+        body { background: #000; color: #f5f5f7; padding-top: 0; }
+        .global-nav { position: static; display: flex; align-items: center; justify-content: flex-end; gap: 6px; padding: 0; background: none; border-bottom: none; -webkit-backdrop-filter: none; backdrop-filter: none; height: auto; }
+        .global-nav-link { display: inline-flex; align-items: center; justify-content: center; min-height: 30px; padding: 0 14px; border-radius: 999px; color: rgba(245,245,247,0.72); text-decoration: none; font-size: 13px; font-weight: 500; letter-spacing: -0.01em; transition: color 0.2s, background 0.2s, transform 0.2s; }
+        .global-nav-link:hover { color: #fff; background: rgba(255,255,255,0.10); transform: translateY(-1px); }
+        .global-nav-link.active { color: #fff; background: rgba(0,122,255,0.34); box-shadow: inset 0 0 0 1px rgba(10,132,255,0.45); }
+        .header { background: linear-gradient(180deg, #1c1c1e 0%, #111113 100%); color: #f5f5f7; border-bottom: 1px solid rgba(255,255,255,0.08); box-shadow: 0 18px 44px rgba(0,0,0,0.35); }
+        .header-sub, .card-meta, .sc-sub, .biz-unit, .empty { color: #8e8e93; }
+        .content { color: #f5f5f7; }
+        .card, .stat-card, .modal { background: #2c2c2e; color: #f5f5f7; border-radius: 16px; border: 1px solid rgba(255,255,255,0.08); box-shadow: 0 20px 48px rgba(0,0,0,0.28); }
+        .stat-card { border-left: 0; }
+        .sc-label, .stat-card .sc-label, .biz-label, .cf-row, .fund-total, .form-group label { color: #aeaeb2; }
+        .sc-value, .stat-card .sc-value, .card-title, .section-header h2, .modal h2, .frozen-item .fi-name { color: #fff; }
+        .stats .sc-value, .stat-card .value, .stat-card .sc-value { font-size: 28px; letter-spacing: -0.02em; }
+        .tabs { background: #1c1c1e; border-bottom: 1px solid rgba(255,255,255,0.08); }
+        .tab { color: #aeaeb2; }
+        .tab:hover, .tab.active { color: #fff; }
+        th { background: #1c1c1e; color: #aeaeb2; }
+        td { border-bottom-color: rgba(255,255,255,0.08); color: #f5f5f7; }
+        tr:hover td { background: rgba(255,255,255,0.04); }
+        .biz-row, .cf-divider, .fund-total, .summary-bar, .form-actions { border-color: rgba(255,255,255,0.08); }
+        .todo-item, .p1-focus-wrap, .frozen-item { background: #1c1c1e; }
+        input, select, textarea, .filter-bar select, .filter-bar input, .fund-input-group input, .form-group input, .form-group select, .todo-add input[type=text] { background: #1c1c1e; color: #f5f5f7; border-color: rgba(255,255,255,0.14); }
+        input::placeholder, textarea::placeholder { color: #636366; }
+        .ie { color: #f5f5f7; }
+        .ie:focus { background: rgba(10,132,255,0.14); }
+        .btn-secondary { background: #3a3a3c; color: #f5f5f7; border-color: rgba(255,255,255,0.12); }
+        .btn-secondary:hover { background: #48484a; }
+        .modal-overlay { background: rgba(0,0,0,0.72); }
+        .card [style*="color:#555"], .card [style*="color:#666"], .card [style*="color:#888"], .card [style*="color:#aaa"] { color: #aeaeb2 !important; }
+        .card [style*="color:#bbb"], .empty [style*="color:#bbb"] { color: #8e8e93 !important; }
+        @media (max-width: 600px) { .global-nav { justify-content: flex-start; overflow-x: auto; } .global-nav-link { flex: 0 0 auto; padding: 0 10px; font-size: 12px; } }
+
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <div>
+        <h1>🚀 Mac 业务总控台</h1>
+        <div class="header-sub" id="updated-at">最后更新：—</div>
+    </div>
+    <div class="header-right">
+        <nav class="global-nav" aria-label="全局导航">
+            <a class="global-nav-link" href="rental-manager.html">🏠 租房管理</a>
+            <a class="global-nav-link" href="cashflow-dashboard.html">💰 现金流</a>
+            <a class="global-nav-link active" href="dashboard.html">🚀 总控台</a>
+        </nav>
+        <button class="btn-refresh" onclick="refreshAll()">🔄 刷新</button>
+    </div>
+</div>
+
+<div class="content">
+
+    <!-- 4 核心数字卡 -->
+    <div class="stats" id="stat-cards"></div>
+
+    <!-- 主体双栏 -->
+    <div class="main-grid">
+
+        <!-- 左栏 60%：财务区 -->
+        <div class="left-col">
+
+            <!-- 租金收入概览 -->
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <div class="card-title">🏠 租金收入概览</div>
+                        <div class="card-meta" id="quarter-label"></div>
+                    </div>
+                    <div id="rent-alert"></div>
+                </div>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>租客</th>
+                                <th>房间</th>
+                                <th>月租</th>
+                                <th>合同到期</th>
+                                <th>本季状态</th>
+                            </tr>
+                        </thead>
+                        <tbody id="rental-tbody"></tbody>
+                    </table>
+                </div>
+                <div id="rental-empty" class="empty" style="display:none">
+                    暂无租客数据，请前往「租房管理」添加
+                </div>
+                <div id="rental-footer" style="font-size:12px;color:#888;padding-top:10px;border-top:1px solid #f0f0f0;margin-top:8px;display:none"></div>
+            </div>
+
+            <!-- 现金流快报 -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">💰 现金流快报</div>
+                    <a class="nav-link" href="cashflow-dashboard.html" style="font-size:11px;padding:3px 8px">详情 →</a>
+                </div>
+                <div id="cf-content"></div>
+            </div>
+
+        </div>
+
+        <!-- 右栏 40%：业务区 -->
+        <div class="right-col">
+
+            <!-- P1 需求调度 -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">📋 P1 需求调度</div>
+                    <select class="p1-select" id="p1-status" onchange="saveP1()"></select>
+                </div>
+                <div class="p1-focus-wrap">
+                    <div class="p1-focus-lbl">本周重点</div>
+                    <input type="text" class="ie w-full" id="p1-focus"
+                           placeholder="输入本周重点事项…"
+                           onblur="saveP1()" onkeydown="if(event.key==='Enter')this.blur()">
+                </div>
+            </div>
+
+            <!-- P2 内容运营 -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">📝 P2 内容运营</div>
+                </div>
+                <div class="biz-row">
+                    <span class="biz-label">本周发布</span>
+                    <span class="biz-val">
+                        <input type="number" class="ie w-sm" id="p2-posts" min="0"
+                               onblur="saveP2()" onkeydown="if(event.key==='Enter')this.blur()">
+                        <span class="biz-unit">篇</span>
+                    </span>
+                </div>
+                <div class="biz-row">
+                    <span class="biz-label">下一篇状态</span>
+                    <input type="text" class="ie w-lg" id="p2-next"
+                           placeholder="如：构思中"
+                           onblur="saveP2()" onkeydown="if(event.key==='Enter')this.blur()">
+                </div>
+            </div>
+
+            <!-- P3 上门私教 -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">💪 P3 上门私教</div>
+                </div>
+                <div class="biz-row">
+                    <span class="biz-label">本周课次</span>
+                    <span class="biz-val">
+                        <input type="number" class="ie w-sm" id="p3-sessions" min="0"
+                               onblur="saveP3()" onkeydown="if(event.key==='Enter')this.blur()">
+                        <span class="biz-unit">节</span>
+                    </span>
+                </div>
+                <div class="biz-row">
+                    <span class="biz-label">本月收入</span>
+                    <span class="biz-val">
+                        <span class="biz-unit">¥</span>
+                        <input type="number" class="ie w-md" id="p3-income" min="0"
+                               onblur="saveP3()" onkeydown="if(event.key==='Enter')this.blur()">
+                    </span>
+                </div>
+                <div class="biz-row">
+                    <span class="biz-label">本月客户数</span>
+                    <span class="biz-val">
+                        <input type="number" class="ie w-sm" id="p3-clients" min="0"
+                               onblur="saveP3()" onkeydown="if(event.key==='Enter')this.blur()">
+                        <span class="biz-unit">人</span>
+                    </span>
+                </div>
+                <div class="biz-row">
+                    <span class="biz-label">待跟进客户</span>
+                    <span class="biz-val">
+                        <input type="number" class="ie w-sm" id="p3-pending" min="0"
+                               onblur="saveP3()" onkeydown="if(event.key==='Enter')this.blur()">
+                        <span class="biz-unit">人</span>
+                    </span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- 本周待办快览 -->
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title">✅ 本周待办快览</div>
+            <span id="todo-count" style="font-size:12px;color:#aaa;flex-shrink:0"></span>
+        </div>
+        <div class="todo-add">
+            <input type="text" id="todo-input" placeholder="添加待办事项（最多5条）…"
+                   onkeydown="if(event.key==='Enter')addTodo()">
+            <button class="btn btn-primary btn-sm" id="todo-add-btn" onclick="addTodo()">添加</button>
+        </div>
+        <div class="todo-list" id="todo-list"></div>
+        <div id="todo-empty" class="empty" style="display:none">暂无待办，点击「添加」开始记录</div>
+    </div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ── Keys ──────────────────────────────────────────────
+var DASH_KEY   = 'mac_dashboard_v1';
+var CF_KEY     = 'cf_dash_v1';
+var RM_TENANTS = 'rm_tenants';
+var RM_RENTS   = 'rm_rents';
+
+// ── Default dash structure ────────────────────────────
+var DEF = {
+    p1: { status: '待启动', weeklyFocus: '' },
+    p2: { weeklyPosts: 0, nextArticleStatus: '' },
+    p3: { weekSessions: 0, monthlyIncome: 0, monthlyClients: 0, pendingClients: 0 },
+    todos: [],
+    updatedAt: null
+};
+
+// ── Load ──────────────────────────────────────────────
+function dbGet(key, def) {
+    try { var v = localStorage.getItem(key); return v ? JSON.parse(v) : def; } catch(e) { return def; }
+}
+function dbSet(key, val) { localStorage.setItem(key, JSON.stringify(val)); }
+
+var dash = (function() {
+    var d = dbGet(DASH_KEY, {});
+    return {
+        p1:        Object.assign({}, DEF.p1, d.p1 || {}),
+        p2:        Object.assign({}, DEF.p2, d.p2 || {}),
+        p3:        Object.assign({}, DEF.p3, d.p3 || {}),
+        todos:     Array.isArray(d.todos) ? d.todos : [],
+        updatedAt: d.updatedAt || null
+    };
+})();
+
+var cfData  = dbGet(CF_KEY, null);
+var tenants = dbGet(RM_TENANTS, []);
+var rents   = dbGet(RM_RENTS, []);
+
+// ── Utils ─────────────────────────────────────────────
+function uid() { return Date.now().toString(36) + Math.random().toString(36).substr(2,5); }
+
+function fmtMoney(n) { return '¥' + Number(n||0).toLocaleString(); }
+
+function fmtDateShort(s) {
+    if (!s) return '—';
+    var d = new Date(s);
+    return d.getFullYear() + '/' + (d.getMonth()+1) + '/' + d.getDate();
+}
+
+function daysUntil(s) {
+    if (!s) return null;
+    var a = new Date(); a.setHours(0,0,0,0);
+    var b = new Date(s); b.setHours(0,0,0,0);
+    return Math.round((b - a) / 86400000);
+}
+
+function esc(s) {
+    return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function showToast(msg) {
+    var t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    clearTimeout(t._tid);
+    t._tid = setTimeout(function(){ t.classList.remove('show'); }, 1800);
+}
+
+function fmtTS(iso) {
+    if (!iso) return '—';
+    var d = new Date(iso);
+    return d.getFullYear() + '年' + (d.getMonth()+1) + '月' + d.getDate() + '日 '
+        + String(d.getHours()).padStart(2,'0') + ':' + String(d.getMinutes()).padStart(2,'0');
+}
+
+function nowYM() {
+    var d = new Date();
+    return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0');
+}
+
+function getQI() {
+    var now = new Date();
+    var y = now.getFullYear(), m = now.getMonth()+1;
+    var q = Math.ceil(m/3), s = (q-1)*3+1;
+    var months = [];
+    for (var i = s; i <= s+2; i++) months.push(y + '-' + String(i).padStart(2,'0'));
+    return { q: q, year: y, months: months };
+}
+
+// ── Persist ───────────────────────────────────────────
+function saveDash() {
+    dash.updatedAt = new Date().toISOString();
+    dbSet(DASH_KEY, dash);
+    document.getElementById('updated-at').textContent = '最后更新：' + fmtTS(dash.updatedAt);
+}
+
+// ── Refresh external data ─────────────────────────────
+function refreshAll() {
+    cfData  = dbGet(CF_KEY, null);
+    tenants = dbGet(RM_TENANTS, []);
+    rents   = dbGet(RM_RENTS, []);
+    renderAll();
+    showToast('✓ 数据已刷新');
+}
+
+// ── Render All ────────────────────────────────────────
+function renderAll() {
+    renderStats();
+    renderRental();
+    renderCF();
+    renderP1();
+    renderP2();
+    renderP3();
+    renderTodos();
+    document.getElementById('updated-at').textContent = '最后更新：' + fmtTS(dash.updatedAt);
+}
+
+// ── Stat Cards ────────────────────────────────────────
+function cfExpenseTotal(status) {
+    if (!cfData || !Array.isArray(cfData.expenses)) return 0;
+    return cfData.expenses.filter(function(e){ return e.status === status; })
+        .reduce(function(s,e){ return s + (Number(e.amount)||0); }, 0);
+}
+
+function cfFrozenTotal() {
+    if (!cfData || !Array.isArray(cfData.frozen)) return 0;
+    return cfData.frozen.reduce(function(s,f){ return s + (Number(f.amount)||0); }, 0);
+}
+
+function cfAvailableCash() {
+    if (!cfData || !cfData.funds) return 0;
+    var inc  = Number(cfData.funds.incoming) || 0;
+    var wec  = Number(cfData.funds.wechat)   || 0;
+    var paid = cfExpenseTotal('paid');
+    return inc + wec - paid;
+}
+
+function renderStats() {
+    var avail = cfAvailableCash();
+
+    var qi = getQI(), nm = nowYM();
+    var qPaid = 0, qTotal = 0;
+    tenants.forEach(function(t) {
+        var mo = Number(t.rent) || 0;
+        qi.months.forEach(function(m) {
+            if (m > nm) return;
+            qTotal += mo;
+            var r = rents.find(function(r){ return r.tenantId === t.id && r.month === m; });
+            if (r && r.status === 'paid') qPaid += Number(r.amount) || mo;
+        });
+    });
+
+    var rentVal, rentSub;
+    if (!tenants.length) {
+        rentVal = '—'; rentSub = '暂无租客';
+    } else if (!qTotal) {
+        rentVal = '—'; rentSub = 'Q' + qi.q + ' 未录入';
+    } else {
+        rentVal = fmtMoney(qPaid);
+        rentSub = 'Q' + qi.q + ' 应收 ' + fmtMoney(qTotal) + '（' + Math.round(qPaid/qTotal*100) + '%）';
+    }
+
+    var ptC = Number(dash.p3.monthlyClients) || 0;
+    var ptS = Number(dash.p3.weekSessions)   || 0;
+
+    function sc(cls, label, val, sub, small) {
+        return '<div class="stat-card ' + cls + '">' +
+            '<div class="sc-label">' + label + '</div>' +
+            '<div class="sc-value"' + (small ? ' style="font-size:19px"' : '') + '>' + val + '</div>' +
+            '<div class="sc-sub">' + sub + '</div>' +
+        '</div>';
+    }
+
+    document.getElementById('stat-cards').innerHTML =
+        sc('green',  '🟢 可动用现金',   fmtMoney(avail), cfData ? '进账 + 微信余额 - 已付支出' : '请先打开现金流录入') +
+        sc('blue',   '🏠 本季租金',     rentVal, rentSub, true) +
+        sc('orange', '💪 本月私教客户', ptC + ' <span style="font-size:14px;font-weight:400">人</span>', '上门私教') +
+        sc('purple', '📅 本周课次',     ptS + ' <span style="font-size:14px;font-weight:400">节</span>', '上门私教');
+}
+
+// ── Rental ────────────────────────────────────────────
+function renderRental() {
+    var qi = getQI(), nm = nowYM();
+    document.getElementById('quarter-label').textContent =
+        qi.year + '年 Q' + qi.q + '（' + qi.months[0] + ' ~ ' + qi.months[2] + '）';
+
+    var tbody  = document.getElementById('rental-tbody');
+    var empty  = document.getElementById('rental-empty');
+    var footer = document.getElementById('rental-footer');
+    var alert  = document.getElementById('rent-alert');
+
+    if (!tenants.length) {
+        tbody.innerHTML = '';
+        empty.style.display = '';
+        footer.style.display = 'none';
+        alert.innerHTML = '';
+        return;
+    }
+    empty.style.display = 'none';
+
+    var urgentN = 0;
+
+    tbody.innerHTML = tenants.map(function(t) {
+        // Contract expiry badge
+        var days = daysUntil(t.end);
+        var expHtml;
+        if (!t.end) {
+            expHtml = '<span style="color:#bbb;font-size:11px">未设置</span>';
+        } else if (days < 0) {
+            urgentN++;
+            expHtml = '<span class="badge b-red">已到期</span>';
+        } else if (days <= 30) {
+            urgentN++;
+            expHtml = '<span class="badge b-orange">' + days + '天后</span>';
+        } else if (days <= 90) {
+            expHtml = '<span class="badge b-yellow">' + days + '天后</span>';
+        } else {
+            expHtml = '<span style="font-size:11px;color:#888">' + fmtDateShort(t.end) + '</span>';
+        }
+
+        // Quarter rent status
+        var paid = 0, pending = 0;
+        qi.months.forEach(function(m) {
+            if (m > nm) return;
+            var r = rents.find(function(r){ return r.tenantId === t.id && r.month === m; });
+            if (r && r.status === 'paid') paid++;
+            else pending++;
+        });
+        var due = paid + pending;
+        var qHtml;
+        if (!due) {
+            qHtml = '<span style="color:#bbb;font-size:11px">本季待录入</span>';
+        } else {
+            var cls = pending === 0 ? 'b-green' : (paid === 0 ? 'b-red' : 'b-orange');
+            qHtml = '<span class="badge ' + cls + '">已收 ' + paid + '/' + due + ' 月</span>';
+        }
+
+        return '<tr>' +
+            '<td><strong>' + esc(t.name) + '</strong></td>' +
+            '<td style="color:#555">' + esc(t.room) + '</td>' +
+            '<td style="font-weight:600;color:#007aff">' + (t.rent ? fmtMoney(t.rent) : '—') + '</td>' +
+            '<td>' + expHtml + '</td>' +
+            '<td>' + qHtml + '</td>' +
+        '</tr>';
+    }).join('');
+
+    var total = tenants.reduce(function(s,t){ return s+(Number(t.rent)||0); }, 0);
+    footer.style.display = '';
+    footer.innerHTML = '共 ' + tenants.length + ' 名租客 · 月租合计 <strong style="color:#007aff">' + fmtMoney(total) + '</strong>';
+
+    alert.innerHTML = urgentN
+        ? '<span class="badge b-orange">⚠️ ' + urgentN + ' 份合同需关注</span>'
+        : '';
+}
+
+// ── Cash Flow Brief ───────────────────────────────────
+function renderCF() {
+    var el = document.getElementById('cf-content');
+    if (!cfData || !cfData.funds) {
+        el.innerHTML = '<div class="empty">暂无数据，请先打开「现金流仪表盘」录入</div>';
+        return;
+    }
+    var inc       = Number(cfData.funds.incoming) || 0;
+    var wec       = Number(cfData.funds.wechat)   || 0;
+    var frozen    = cfFrozenTotal();
+    var paid      = cfExpenseTotal('paid');
+    var locked    = cfExpenseTotal('locked');
+    var available = cfAvailableCash();
+
+    function row(lbl, val) { return '<div class="cf-row"><span>' + lbl + '</span>' + val + '</div>'; }
+
+    el.innerHTML =
+        row('进账金额',   '<span class="pos">' + fmtMoney(inc) + '</span>') +
+        row('微信余额',   '<span class="pos">' + fmtMoney(wec) + '</span>') +
+        row('冻结资金',   '<span class="neg">－' + fmtMoney(frozen) + '</span>') +
+        '<hr class="cf-divider">' +
+        row('已付支出',   '<span class="neg">－' + fmtMoney(paid) + '</span>') +
+        row('已锁定支出', '<span class="neg">－' + fmtMoney(locked) + '</span>') +
+        '<hr class="cf-divider">' +
+        '<div class="cf-row cf-total"><span>可动用现金</span><span style="color:' +
+            (available>=0?'#34c759':'#ff3b30') + ';font-weight:700">' + fmtMoney(available) + '</span></div>';
+}
+
+// ── P1 ────────────────────────────────────────────────
+var P1_OPTS = [
+    { v:'待启动', bg:'#f5f5f5', c:'#666' },
+    { v:'进行中', bg:'#e3f2fd', c:'#1565c0' },
+    { v:'暂停',   bg:'#fff3e0', c:'#e65100' },
+    { v:'已完成', bg:'#e8f5e9', c:'#2e7d32' }
+];
+
+function renderP1() {
+    var sel = document.getElementById('p1-status');
+    sel.innerHTML = P1_OPTS.map(function(o){
+        return '<option value="' + o.v + '"' + (dash.p1.status===o.v?' selected':'') + '>' + o.v + '</option>';
+    }).join('');
+    styleP1Select();
+    document.getElementById('p1-focus').value = dash.p1.weeklyFocus || '';
+}
+
+function styleP1Select() {
+    var sel = document.getElementById('p1-status');
+    var opt = P1_OPTS.find(function(o){ return o.v===sel.value; }) || P1_OPTS[0];
+    sel.style.background = opt.bg;
+    sel.style.color      = opt.c;
+}
+
+function saveP1() {
+    dash.p1.status      = document.getElementById('p1-status').value;
+    dash.p1.weeklyFocus = document.getElementById('p1-focus').value.trim();
+    styleP1Select();
+    saveDash();
+    showToast('✓ P1 已保存');
+}
+
+// ── P2 ────────────────────────────────────────────────
+function renderP2() {
+    document.getElementById('p2-posts').value = dash.p2.weeklyPosts || 0;
+    document.getElementById('p2-next').value  = dash.p2.nextArticleStatus || '';
+}
+
+function saveP2() {
+    dash.p2.weeklyPosts       = Number(document.getElementById('p2-posts').value) || 0;
+    dash.p2.nextArticleStatus = document.getElementById('p2-next').value.trim();
+    saveDash();
+    showToast('✓ P2 已保存');
+}
+
+// ── P3 ────────────────────────────────────────────────
+function renderP3() {
+    document.getElementById('p3-sessions').value = dash.p3.weekSessions   || 0;
+    document.getElementById('p3-income').value   = dash.p3.monthlyIncome  || 0;
+    document.getElementById('p3-clients').value  = dash.p3.monthlyClients || 0;
+    document.getElementById('p3-pending').value  = dash.p3.pendingClients || 0;
+}
+
+function saveP3() {
+    dash.p3.weekSessions   = Number(document.getElementById('p3-sessions').value) || 0;
+    dash.p3.monthlyIncome  = Number(document.getElementById('p3-income').value)   || 0;
+    dash.p3.monthlyClients = Number(document.getElementById('p3-clients').value)  || 0;
+    dash.p3.pendingClients = Number(document.getElementById('p3-pending').value)  || 0;
+    saveDash();
+    renderStats();
+    showToast('✓ P3 已保存');
+}
+
+// ── Todos ─────────────────────────────────────────────
+function renderTodos() {
+    var todos   = dash.todos;
+    var list    = document.getElementById('todo-list');
+    var empty   = document.getElementById('todo-empty');
+    var countEl = document.getElementById('todo-count');
+    var input   = document.getElementById('todo-input');
+    var btn     = document.getElementById('todo-add-btn');
+    var full    = todos.length >= 5;
+
+    countEl.textContent  = todos.length + '/5';
+    input.disabled       = full;
+    btn.disabled         = full;
+    input.placeholder    = full ? '已达上限（5条）' : '添加待办事项（最多5条）…';
+
+    if (!todos.length) {
+        list.innerHTML = '';
+        empty.style.display = '';
+        return;
+    }
+    empty.style.display = 'none';
+    list.innerHTML = todos.map(function(td) {
+        return '<div class="todo-item' + (td.done?' done':'') + '">' +
+            '<input type="checkbox"' + (td.done?' checked':'') + ' data-id="' + td.id + '" onchange="toggleTodo(this.dataset.id)">' +
+            '<span class="ti-text">' + esc(td.text) + '</span>' +
+            '<button class="ti-del" data-id="' + td.id + '" onclick="deleteTodo(this.dataset.id)">✕</button>' +
+        '</div>';
+    }).join('');
+}
+
+function addTodo() {
+    if (dash.todos.length >= 5) { showToast('最多5条'); return; }
+    var text = document.getElementById('todo-input').value.trim();
+    if (!text) { document.getElementById('todo-input').focus(); return; }
+    dash.todos.push({ id: uid(), text: text, done: false });
+    document.getElementById('todo-input').value = '';
+    saveDash();
+    renderTodos();
+    showToast('✓ 已添加');
+}
+
+function toggleTodo(id) {
+    var td = dash.todos.find(function(x){ return x.id===id; });
+    if (td) { td.done = !td.done; saveDash(); renderTodos(); }
+}
+
+function deleteTodo(id) {
+    dash.todos = dash.todos.filter(function(x){ return x.id!==id; });
+    saveDash();
+    renderTodos();
+    showToast('✓ 已删除');
+}
+
+// ── Init ─────────────────────────────────────────────
+renderAll();
+</script>
+
+
+</body>
+</html>
