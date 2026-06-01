@@ -8,11 +8,11 @@
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { font-family: -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif; background: #f5f5f7; color: #1d1d1f; min-height: 100vh; }
 
-        .header { background: #1d1d1f; color: white; padding: 16px 24px; display: flex; align-items: center; justify-content: space-between; }
+        .header { background: #ffffff; color: #1d1d1f; padding: 16px 24px; display: flex; align-items: center; justify-content: space-between; }
         .header h1 { font-size: 20px; font-weight: 600; }
         .header-sub { font-size: 12px; color: #888; margin-top: 2px; }
         .header-right { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
-        .btn-header { background: rgba(255,255,255,0.12); color: white; border: 1px solid rgba(255,255,255,0.25); font-size: 13px; padding: 7px 13px; }
+        .btn-header { background: rgba(0,0,0,0.06); color: #1d1d1f; border: 1px solid rgba(0,0,0,0.15); font-size: 13px; padding: 7px 13px; }
         .btn-header:hover { background: rgba(255,255,255,0.22); }
 
         .tabs { background: white; border-bottom: 1px solid #e5e5e5; padding: 0 24px; display: flex; }
@@ -99,40 +99,7 @@
         }
 
 
-        /* Apple global navigation + dark visual refresh */
-        body { background: #000; color: #f5f5f7; padding-top: 0; }
-        .global-nav { position: static; display: flex; align-items: center; justify-content: flex-end; gap: 6px; padding: 0; background: none; border-bottom: none; -webkit-backdrop-filter: none; backdrop-filter: none; height: auto; }
-        .global-nav-link { display: inline-flex; align-items: center; justify-content: center; min-height: 30px; padding: 0 14px; border-radius: 999px; color: rgba(245,245,247,0.72); text-decoration: none; font-size: 13px; font-weight: 500; letter-spacing: -0.01em; transition: color 0.2s, background 0.2s, transform 0.2s; }
-        .global-nav-link:hover { color: #fff; background: rgba(255,255,255,0.10); transform: translateY(-1px); }
-        .global-nav-link.active { color: #fff; background: rgba(0,122,255,0.34); box-shadow: inset 0 0 0 1px rgba(10,132,255,0.45); }
-        .header { background: linear-gradient(180deg, #1c1c1e 0%, #111113 100%); color: #f5f5f7; border-bottom: 1px solid rgba(255,255,255,0.08); box-shadow: 0 18px 44px rgba(0,0,0,0.35); }
-        .header-sub, .card-meta, .sc-sub, .biz-unit, .empty { color: #8e8e93; }
-        .content { color: #f5f5f7; }
-        .card, .stat-card, .modal { background: #2c2c2e; color: #f5f5f7; border-radius: 16px; border: 1px solid rgba(255,255,255,0.08); box-shadow: 0 20px 48px rgba(0,0,0,0.28); }
-        .stat-card { border-left: 0; }
-        .sc-label, .stat-card .sc-label, .biz-label, .cf-row, .fund-total, .form-group label { color: #aeaeb2; }
-        .sc-value, .stat-card .sc-value, .card-title, .section-header h2, .modal h2, .frozen-item .fi-name { color: #fff; }
-        .stats .sc-value, .stat-card .value, .stat-card .sc-value { font-size: 28px; letter-spacing: -0.02em; }
-        .tabs { background: #1c1c1e; border-bottom: 1px solid rgba(255,255,255,0.08); }
-        .tab { color: #aeaeb2; }
-        .tab:hover, .tab.active { color: #fff; }
-        th { background: #1c1c1e; color: #aeaeb2; }
-        td { border-bottom-color: rgba(255,255,255,0.08); color: #f5f5f7; }
-        tr:hover td { background: rgba(255,255,255,0.04); }
-        .biz-row, .cf-divider, .fund-total, .summary-bar, .form-actions { border-color: rgba(255,255,255,0.08); }
-        .todo-item, .p1-focus-wrap, .frozen-item { background: #1c1c1e; }
-        input, select, textarea, .filter-bar select, .filter-bar input, .fund-input-group input, .form-group input, .form-group select, .todo-add input[type=text] { background: #1c1c1e; color: #f5f5f7; border-color: rgba(255,255,255,0.14); }
-        input::placeholder, textarea::placeholder { color: #636366; }
-        .ie { color: #f5f5f7; }
-        .ie:focus { background: rgba(10,132,255,0.14); }
-        .btn-secondary { background: #3a3a3c; color: #f5f5f7; border-color: rgba(255,255,255,0.12); }
-        .btn-secondary:hover { background: #48484a; }
-        .modal-overlay { background: rgba(0,0,0,0.72); }
-        .card [style*="color:#555"], .card [style*="color:#666"], .card [style*="color:#888"], .card [style*="color:#aaa"] { color: #aeaeb2 !important; }
-        .card [style*="color:#bbb"], .empty [style*="color:#bbb"] { color: #8e8e93 !important; }
-        @media (max-width: 600px) { .global-nav { justify-content: flex-start; overflow-x: auto; } .global-nav-link { flex: 0 0 auto; padding: 0 10px; font-size: 12px; } }
-
-    </style>
+        </style>
 </head>
 <body>
 
