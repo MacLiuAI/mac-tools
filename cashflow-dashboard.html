@@ -8,7 +8,6 @@
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { font-family: -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif; background: #f5f5f7; color: #1d1d1f; min-height: 100vh; }
 
-
         .header { background: #ffffff; color: #1d1d1f; padding: 16px 24px; display: flex; align-items: center; justify-content: space-between; }
         .header h1 { font-size: 20px; font-weight: 600; }
         .header-sub { font-size: 12px; color: #888; margin-top: 2px; }
@@ -17,17 +16,14 @@
         .btn-header { background: rgba(0,0,0,0.06); color: #1d1d1f; border: 1px solid rgba(0,0,0,0.15); font-size: 13px; padding: 7px 13px; }
         .btn-header:hover { background: rgba(255,255,255,0.22); }
 
-
         .tabs { background: white; border-bottom: 1px solid #e5e5e5; padding: 0 24px; display: flex; }
         .tab { padding: 14px 20px; cursor: pointer; border-bottom: 3px solid transparent; font-size: 14px; color: #666; transition: all 0.2s; user-select: none; }
         .tab:hover { color: #1d1d1f; }
         .tab.active { color: #007aff; border-bottom-color: #007aff; font-weight: 500; }
 
-
         .content { padding: 24px; max-width: 1080px; margin: 0 auto; }
         .panel { display: none; }
         .panel.active { display: block; }
-
 
         /* Stat cards */
         .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
@@ -38,3 +34,1213 @@
         .stat-card.blue   { border-left-color: #007aff; }
         .stat-card .sc-label { font-size: 12px; color: #888; margin-bottom: 6px; }
         .stat-card .sc-value { font-size: 26px; font-weight: 700; }
+        .stat-card .sc-sub { font-size: 12px; color: #aaa; margin-top: 3px; }
+        .stat-card.green  .sc-value { color: #34c759; }
+        .stat-card.red    .sc-value { color: #ff3b30; }
+        .stat-card.yellow .sc-value { color: #b8860b; }
+        .stat-card.blue   .sc-value { color: #007aff; }
+
+        /* General card */
+        .card { background: white; border-radius: 12px; padding: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); margin-bottom: 20px; }
+
+        /* Buttons */
+        .btn { display: inline-flex; align-items: center; gap: 5px; padding: 8px 16px; border: none; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 500; transition: all 0.15s; }
+        .btn-primary   { background: #007aff; color: white; }
+        .btn-primary:hover   { background: #0062cc; }
+        .btn-danger    { background: #ff3b30; color: white; }
+        .btn-danger:hover    { background: #d32f2f; }
+        .btn-secondary { background: #f5f5f7; color: #1d1d1f; border: 1px solid #e5e5e5; }
+        .btn-secondary:hover { background: #e5e5e7; }
+        .btn-success   { background: #34c759; color: white; }
+        .btn-success:hover   { background: #28a745; }
+        .btn-sm { padding: 5px 10px; font-size: 12px; border-radius: 6px; }
+
+        /* Section headers */
+        .section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+        .section-header h2 { font-size: 16px; font-weight: 600; }
+
+        /* Tables */
+        .table-wrap { overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; font-size: 14px; }
+        th { text-align: left; padding: 10px 14px; background: #f5f5f7; color: #666; font-weight: 500; font-size: 12px; }
+        td { padding: 12px 14px; border-bottom: 1px solid #f0f0f0; vertical-align: middle; }
+        tr:last-child td { border-bottom: none; }
+        tr:hover td { background: #fafafa; }
+
+        /* Fund inputs */
+        .fund-inputs { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 14px; }
+        .fund-input-group label { display: block; font-size: 12px; color: #888; margin-bottom: 4px; }
+        .fund-input-group input { width: 100%; padding: 10px 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 18px; font-weight: 600; outline: none; color: #1d1d1f; }
+        .fund-input-group input:focus { border-color: #007aff; box-shadow: 0 0 0 3px rgba(0,122,255,0.1); }
+        .fund-total { font-size: 14px; color: #555; padding-top: 10px; border-top: 1px solid #f0f0f0; }
+        .fund-total span { font-weight: 700; color: #34c759; font-size: 18px; }
+
+        /* Frozen items */
+        .frozen-list { display: flex; flex-direction: column; gap: 8px; }
+        .frozen-item { display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; background: #fff5f5; border-radius: 8px; border-left: 3px solid #ff3b30; }
+        .frozen-item .fi-info { flex: 1; }
+        .frozen-item .fi-name { font-size: 14px; font-weight: 500; }
+        .frozen-item .fi-reason { font-size: 12px; color: #888; margin-top: 2px; }
+        .frozen-item .fi-amount { color: #ff3b30; font-weight: 700; font-size: 16px; margin: 0 16px; }
+        .frozen-item .fi-actions { display: flex; gap: 6px; }
+
+        /* Badges */
+        .badge { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 12px; font-weight: 500; }
+        .badge-pending    { background: #fff3e0; color: #e65100; }
+        .badge-processing { background: #e3f2fd; color: #1565c0; }
+        .badge-received   { background: #e8f5e9; color: #2e7d32; }
+        .badge-paid       { background: #e8f5e9; color: #2e7d32; }
+        .badge-pending-exp { background: #fff3e0; color: #e65100; }
+        .badge-locked     { background: #f3e5f5; color: #6a1b9a; }
+        .badge-stage-active  { background: #e3f2fd; color: #1565c0; }
+        .badge-stage-idle    { background: #f5f5f5; color: #666; }
+        .badge-stage-done    { background: #e8f5e9; color: #2e7d32; }
+        .badge-stage-orange  { background: #fff3e0; color: #e65100; }
+
+        /* Next month compare */
+        .compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        .compare-col { background: #fafafa; border-radius: 10px; padding: 16px; }
+        .compare-col h3 { font-size: 14px; font-weight: 600; color: #555; margin-bottom: 12px; }
+        .compare-row { display: flex; justify-content: space-between; font-size: 14px; padding: 5px 0; border-bottom: 1px solid #eee; }
+        .compare-row:last-child { border-bottom: none; font-weight: 700; font-size: 15px; margin-top: 4px; }
+        .compare-row .cr-neg { color: #ff3b30; }
+        .compare-row .cr-pos { color: #34c759; }
+        .next-income-wrap { display: flex; align-items: center; gap: 8px; }
+        .next-income-wrap input { border: 1px solid #ddd; border-radius: 6px; padding: 4px 8px; font-size: 14px; font-weight: 600; width: 120px; outline: none; }
+        .next-income-wrap input:focus { border-color: #007aff; }
+
+        /* Track cards */
+        .tracks-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+        .track-card { background: white; border-radius: 12px; padding: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); border-top: 4px solid #007aff; }
+        .track-card .tc-name { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
+        .track-card .tc-stage { margin-bottom: 12px; }
+        .track-card .tc-next { background: #f0f7ff; border-left: 3px solid #007aff; padding: 10px 12px; border-radius: 0 8px 8px 0; font-size: 13px; color: #1565c0; margin-bottom: 12px; }
+        .track-card .tc-meta { font-size: 12px; color: #aaa; display: flex; justify-content: space-between; align-items: center; }
+        .track-card .tc-income { font-size: 14px; color: #34c759; font-weight: 600; }
+
+        /* Todos */
+        .todo-add { display: flex; gap: 8px; margin-bottom: 16px; align-items: center; }
+        .todo-add input[type=text] { flex: 1; padding: 10px 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; outline: none; }
+        .todo-add input[type=text]:focus { border-color: #007aff; box-shadow: 0 0 0 3px rgba(0,122,255,0.1); }
+        .todo-add input[type=date] { padding: 10px 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; outline: none; color: #555; }
+        .todo-add input[type=date]:focus { border-color: #007aff; }
+        .todo-list { display: flex; flex-direction: column; gap: 6px; }
+        .todo-item { display: flex; align-items: center; gap: 10px; padding: 10px 14px; background: #fafafa; border-radius: 8px; }
+        .todo-item.done { opacity: 0.5; }
+        .todo-item input[type=checkbox] { width: 18px; height: 18px; cursor: pointer; accent-color: #007aff; flex-shrink: 0; }
+        .todo-item .ti-text { flex: 1; font-size: 14px; }
+        .todo-item.done .ti-text { text-decoration: line-through; color: #aaa; }
+        .todo-item .ti-deadline { font-size: 11px; padding: 2px 8px; border-radius: 10px; flex-shrink: 0; }
+        .ti-dl-normal  { background: #f0f0f0; color: #666; }
+        .ti-dl-today   { background: #fff3e0; color: #e65100; }
+        .ti-dl-overdue { background: #ffebee; color: #c62828; }
+        .todo-item .ti-del { background: none; border: none; color: #ccc; cursor: pointer; font-size: 16px; flex-shrink: 0; padding: 0 4px; line-height: 1; }
+        .todo-item .ti-del:hover { color: #ff3b30; }
+
+        /* Modal */
+        .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.45); z-index: 100; align-items: center; justify-content: center; }
+        .modal-overlay.open { display: flex; }
+        .modal { background: white; border-radius: 16px; padding: 28px; width: 480px; max-width: 94vw; max-height: 92vh; overflow-y: auto; box-shadow: 0 8px 32px rgba(0,0,0,0.18); }
+        .modal h2 { font-size: 18px; margin-bottom: 20px; }
+
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; font-size: 13px; color: #555; margin-bottom: 5px; font-weight: 500; }
+        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 10px 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; outline: none; transition: border-color 0.15s; font-family: inherit; }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: #007aff; box-shadow: 0 0 0 3px rgba(0,122,255,0.1); }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .form-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px; padding-top: 16px; border-top: 1px solid #f0f0f0; }
+
+        .empty { text-align: center; padding: 36px 24px; color: #aaa; }
+        .empty .icon { font-size: 40px; margin-bottom: 10px; }
+        .empty p { font-size: 14px; }
+
+        .toast { position: fixed; bottom: 24px; right: 24px; background: #1d1d1f; color: white; padding: 11px 18px; border-radius: 10px; font-size: 13px; z-index: 200; opacity: 0; transform: translateY(8px); transition: all 0.25s; pointer-events: none; }
+        .toast.show { opacity: 1; transform: translateY(0); }
+
+        /* ── 生存保障线 ── */
+        .sv-track { height: 16px; background: #f0f0f0; border-radius: 8px; position: relative; }
+        .sv-fill  { height: 100%; border-radius: 8px; transition: width 0.5s ease; }
+        .survival-status { font-size: 13px; font-weight: 600; padding: 5px 14px; border-radius: 20px; white-space: nowrap; }
+        .sv-status-red    { background: #ffebee; color: #c62828; }
+        .sv-status-orange { background: #fff3e0; color: #e65100; }
+        .sv-status-green  { background: #e8f5e9; color: #2e7d32; }
+        .sv-status-blue   { background: #e3f2fd; color: #1565c0; }
+        .sv-monthly-input { width: 90px; padding: 3px 8px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px; font-weight: 600; outline: none; text-align: right; transition: border-color 0.15s; }
+        .sv-monthly-input:focus { border-color: #007aff; box-shadow: 0 0 0 3px rgba(0,122,255,0.1); }
+
+        @media (max-width: 900px) {
+            .stats { grid-template-columns: repeat(2, 1fr); }
+            .tracks-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 600px) {
+            .stats { grid-template-columns: 1fr 1fr; }
+            .tracks-grid { grid-template-columns: 1fr; }
+            .compare-grid { grid-template-columns: 1fr; }
+            .fund-inputs { grid-template-columns: 1fr; }
+            .form-row { grid-template-columns: 1fr; }
+            .content { padding: 14px; }
+            .tabs { padding: 0 12px; }
+            .tab { padding: 12px 10px; font-size: 13px; }
+        }
+
+
+        </style>
+</head>
+<body>
+
+<div class="header">
+    <div>
+        <h1>💰 现金流仪表盘</h1>
+        <div class="header-sub">数据保存在本地，关闭浏览器不丢失</div>
+    </div>
+    <div class="header-right">
+        <nav class="global-nav" aria-label="全局导航">
+            <a class="global-nav-link" href="rental-manager.html">🏠 租房管理</a>
+            <a class="global-nav-link active" href="cashflow-dashboard.html">💰 现金流</a>
+            <a class="global-nav-link" href="dashboard.html">🚀 总控台</a>
+        </nav>
+        <div class="header-actions">
+            <button class="btn btn-header" onclick="exportData()">⬇ 导出数据</button>
+            <button class="btn btn-header" onclick="document.getElementById('import-file').click()">⬆ 导入数据</button>
+            <input type="file" id="import-file" accept=".json" style="display:none" onchange="importData(this)">
+        </div>
+    </div>
+</div>
+
+<div class="tabs">
+    <div class="tab active" data-tab="funds" onclick="switchTab(this,'funds')">资金状态</div>
+    <div class="tab" data-tab="tracks" onclick="switchTab(this,'tracks')">收入轨道</div>
+    <div class="tab" data-tab="todos" onclick="switchTab(this,'todos')">本周待办</div>
+</div>
+
+<div class="content">
+
+    <!-- ========== 资金状态 ========== -->
+    <div class="panel active" id="panel-funds">
+
+        <!-- 4 stat cards -->
+        <div class="stats" id="fund-stats"></div>
+
+        <!-- 生存保障线 -->
+        <div class="card" id="sv-card">
+            <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:16px">
+                <div>
+                    <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px">
+                        <span style="font-size:16px;font-weight:600">🛡️ 生存保障线</span>
+                        <span id="sv-status-badge"></span>
+                    </div>
+                    <div style="font-size:13px;color:#888;display:flex;align-items:center;gap:4px">
+                        月均基础支出：<input type="number" id="sv-monthly-exp" class="sv-monthly-input" min="1" onblur="saveSurvivalExpense()"> 元
+                    </div>
+                </div>
+            </div>
+            <!-- bar area: padding-top reserves space for the labels above the bar -->
+            <div style="position:relative;padding-top:22px;margin-bottom:14px" id="sv-bar-wrap"></div>
+            <div id="sv-info-text" style="font-size:13px;color:#555;line-height:2"></div>
+        </div>
+
+        <!-- 可用资金 -->
+        <div class="card">
+            <div class="section-header"><h2>🟢 可用资金</h2></div>
+            <div class="fund-inputs">
+                <div class="fund-input-group">
+                    <label>进账金额（元）</label>
+                    <input type="number" id="f-incoming" placeholder="0" onblur="saveFundAmounts()">
+                </div>
+                <div class="fund-input-group">
+                    <label>微信余额（元）</label>
+                    <input type="number" id="f-wechat" placeholder="0" onblur="saveFundAmounts()">
+                </div>
+            </div>
+            <div class="fund-total">合计可动用现金（已扣已付支出）：<span id="fund-total-val">¥0</span></div>
+        </div>
+
+        <!-- 冻结资金 -->
+        <div class="card">
+            <div class="section-header">
+                <h2>🔴 冻结资金</h2>
+                <button class="btn btn-primary btn-sm" onclick="openFrozenModal()">＋ 添加</button>
+            </div>
+            <div class="frozen-list" id="frozen-list"></div>
+            <div id="frozen-empty" class="empty" style="display:none">
+                <div class="icon">🔓</div><p>暂无冻结资金</p>
+            </div>
+        </div>
+
+        <!-- 潜在收入 -->
+        <div class="card">
+            <div class="section-header">
+                <h2>🟡 潜在收入</h2>
+                <button class="btn btn-primary btn-sm" onclick="openPotentialModal()">＋ 添加</button>
+            </div>
+            <div class="table-wrap">
+                <table>
+                    <thead><tr><th>名称</th><th>预估金额</th><th>备注</th><th>状态</th><th>操作</th></tr></thead>
+                    <tbody id="potential-list"></tbody>
+                </table>
+            </div>
+            <div id="potential-empty" class="empty" style="display:none">
+                <div class="icon">💡</div><p>暂无潜在收入</p>
+            </div>
+        </div>
+
+        <!-- 支出锁定 -->
+        <div class="card">
+            <div class="section-header">
+                <h2>📌 支出锁定</h2>
+                <button class="btn btn-primary btn-sm" onclick="openExpenseModal()">＋ 添加</button>
+            </div>
+            <div class="table-wrap">
+                <table>
+                    <thead><tr><th>名称</th><th>金额</th><th>截止日期</th><th>状态</th><th>操作</th></tr></thead>
+                    <tbody id="expense-list"></tbody>
+                </table>
+            </div>
+            <div id="expense-empty" class="empty" style="display:none">
+                <div class="icon">📋</div><p>暂无支出项目</p>
+            </div>
+        </div>
+
+        <!-- 本月 vs 下月对比 -->
+        <div class="card">
+            <div class="section-header"><h2>📊 本月 vs 下月对比</h2></div>
+            <div class="compare-grid" id="compare-grid"></div>
+        </div>
+
+    </div>
+
+    <!-- ========== 收入轨道 ========== -->
+    <div class="panel" id="panel-tracks">
+        <div class="section-header">
+            <h2>收入轨道追踪</h2>
+            <button class="btn btn-primary" onclick="openTrackModal()">＋ 添加轨道</button>
+        </div>
+        <div class="tracks-grid" id="tracks-grid"></div>
+        <div id="tracks-empty" class="empty" style="display:none">
+            <div class="icon">🛤️</div><p>暂无收入轨道，点击「添加轨道」开始规划</p>
+        </div>
+    </div>
+
+    <!-- ========== 本周待办 ========== -->
+    <div class="panel" id="panel-todos">
+        <div class="card">
+            <div class="section-header"><h2>本周待办节点</h2></div>
+            <div class="todo-add">
+                <input type="text" id="todo-input" placeholder="添加新待办…" onkeydown="if(event.key==='Enter')addTodo()">
+                <input type="date" id="todo-date">
+                <button class="btn btn-primary" onclick="addTodo()">添加</button>
+            </div>
+            <div class="todo-list" id="todo-list"></div>
+            <div id="todo-empty" class="empty" style="display:none">
+                <div class="icon">✅</div><p>暂无待办，输入内容后点击「添加」</p>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- ====== 冻结资金弹窗 ====== -->
+<div class="modal-overlay" id="frozen-modal">
+    <div class="modal">
+        <h2 id="frozen-modal-title">添加冻结资金</h2>
+        <input type="hidden" id="frozen-id">
+        <div class="form-group">
+            <label>名称 *</label>
+            <input type="text" id="frz-name" placeholder="如：工行卡">
+        </div>
+        <div class="form-group">
+            <label>金额（元）*</label>
+            <input type="number" id="frz-amount" placeholder="如：3500" min="0">
+        </div>
+        <div class="form-group">
+            <label>原因 / 备注</label>
+            <input type="text" id="frz-reason" placeholder="如：房贷问题">
+        </div>
+        <div class="form-actions">
+            <button class="btn btn-secondary" onclick="closeModal('frozen-modal')">取消</button>
+            <button class="btn btn-primary" onclick="saveFrozen()">保存</button>
+        </div>
+    </div>
+</div>
+
+<!-- ====== 潜在收入弹窗 ====== -->
+<div class="modal-overlay" id="potential-modal">
+    <div class="modal">
+        <h2 id="potential-modal-title">添加潜在收入</h2>
+        <input type="hidden" id="potential-id">
+        <div class="form-group">
+            <label>名称 *</label>
+            <input type="text" id="pot-name" placeholder="如：手表">
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label>预估金额（最低，元）</label>
+                <input type="number" id="pot-min" placeholder="如：500" min="0">
+            </div>
+            <div class="form-group">
+                <label>预估金额（最高，元）</label>
+                <input type="number" id="pot-max" placeholder="如：800" min="0">
+            </div>
+        </div>
+        <div class="form-group">
+            <label>备注</label>
+            <input type="text" id="pot-note" placeholder="如：待出手">
+        </div>
+        <div class="form-group">
+            <label>状态</label>
+            <select id="pot-status">
+                <option value="pending">待处理</option>
+                <option value="processing">进行中</option>
+                <option value="received">已到账</option>
+            </select>
+        </div>
+        <div class="form-actions">
+            <button class="btn btn-secondary" onclick="closeModal('potential-modal')">取消</button>
+            <button class="btn btn-primary" onclick="savePotential()">保存</button>
+        </div>
+    </div>
+</div>
+
+<!-- ====== 支出弹窗 ====== -->
+<div class="modal-overlay" id="expense-modal">
+    <div class="modal">
+        <h2 id="expense-modal-title">添加支出项目</h2>
+        <input type="hidden" id="expense-id">
+        <div class="form-group">
+            <label>名称 *</label>
+            <input type="text" id="exp-name" placeholder="如：本月房租">
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label>金额（元）*</label>
+                <input type="number" id="exp-amount" placeholder="如：3800" min="0">
+            </div>
+            <div class="form-group">
+                <label>截止日期</label>
+                <input type="date" id="exp-deadline">
+            </div>
+        </div>
+        <div class="form-group">
+            <label>状态</label>
+            <select id="exp-status">
+                <option value="pending">待付</option>
+                <option value="locked">已锁定</option>
+                <option value="paid">已付</option>
+            </select>
+        </div>
+        <div class="form-actions">
+            <button class="btn btn-secondary" onclick="closeModal('expense-modal')">取消</button>
+            <button class="btn btn-primary" onclick="saveExpense()">保存</button>
+        </div>
+    </div>
+</div>
+
+<!-- ====== 收入轨道弹窗 ====== -->
+<div class="modal-overlay" id="track-modal">
+    <div class="modal">
+        <h2 id="track-modal-title">添加收入轨道</h2>
+        <input type="hidden" id="track-id">
+        <div class="form-group">
+            <label>轨道名称 *</label>
+            <input type="text" id="trk-name" placeholder="如：上门私教">
+        </div>
+        <div class="form-group">
+            <label>当前阶段</label>
+            <input type="text" id="trk-stage" placeholder="如：内容获客中">
+        </div>
+        <div class="form-group">
+            <label>下一步动作</label>
+            <input type="text" id="trk-next" placeholder="如：发布第1条亲子内容">
+        </div>
+        <div class="form-group">
+            <label>预估月收入（元）</label>
+            <input type="number" id="trk-income" placeholder="0" min="0">
+        </div>
+        <div class="form-actions">
+            <button class="btn btn-secondary" onclick="closeModal('track-modal')">取消</button>
+            <button class="btn btn-primary" onclick="saveTrack()">保存</button>
+        </div>
+    </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ── 存储 Key ──────────────────────────────────────────
+var STORAGE_KEY = 'cf_dash_v1';
+
+// ── 默认数据 ──────────────────────────────────────────
+var DEFAULT_DATA = {
+    funds: { incoming: 9000, wechat: 2000, nextMonthIncome: 0, monthlyExpense: 5000 },
+    frozen: [
+        { id:'f1', name:'工行卡', amount:3500, reason:'房贷问题' }
+    ],
+    potentials: [
+        { id:'p1', name:'手表', amountMin:500, amountMax:800, note:'待出手', status:'pending' },
+        { id:'p2', name:'分数', amountMin:1000, amountMax:1000, note:'待确认', status:'pending' },
+        { id:'p3', name:'租客', amountMin:500, amountMax:500, note:'预计6月1日到账', status:'processing' }
+    ],
+    expenses: [
+        { id:'e1', name:'保险', amount:1300, deadline:'2026-05-26', status:'pending' },
+        { id:'e2', name:'本月房租', amount:3800, deadline:'2026-05-31', status:'pending' },
+        { id:'e3', name:'下月房租', amount:3800, deadline:'2026-06-30', status:'locked' },
+        { id:'e4', name:'下月生活费', amount:1000, deadline:'2026-06-30', status:'locked' }
+    ],
+    tracks: [
+        { id:'t1', name:'上门私教', stage:'内容获客中', nextAction:'发布第1条亲子内容', estimatedMonthly:0, updatedAt:'2026-05-26T08:00:00.000Z' },
+        { id:'t2', name:'替课/兼职', stage:'待启动', nextAction:'本周投3份简历', estimatedMonthly:0, updatedAt:'2026-05-26T08:00:00.000Z' },
+        { id:'t3', name:'线上体适能', stage:'待启动', nextAction:'方向确认后开始规划', estimatedMonthly:0, updatedAt:'2026-05-26T08:00:00.000Z' }
+    ],
+    todos: [
+        { id:'td1', text:'手表挂二手平台', done:false, deadline:'' },
+        { id:'td2', text:'分数兑现路径确认', done:false, deadline:'' },
+        { id:'td3', text:'跟租客确认6月到账时间', done:false, deadline:'' },
+        { id:'td4', text:'解冻工行3500', done:false, deadline:'' }
+    ]
+};
+
+// ── 数据存取 ──────────────────────────────────────────
+function loadData() {
+    try {
+        var raw = localStorage.getItem(STORAGE_KEY);
+        if (raw) return JSON.parse(raw);
+    } catch(e) {}
+    return JSON.parse(JSON.stringify(DEFAULT_DATA));
+}
+
+function saveData() {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+}
+
+var data = loadData();
+
+// ── 工具函数 ──────────────────────────────────────────
+function uid() {
+    return Date.now().toString(36) + Math.random().toString(36).substr(2, 5);
+}
+
+function daysUntil(dateStr) {
+    if (!dateStr) return null;
+    var today = new Date(); today.setHours(0,0,0,0);
+    var target = new Date(dateStr); target.setHours(0,0,0,0);
+    return Math.round((target - today) / 86400000);
+}
+
+function fmtDate(s) {
+    if (!s) return '—';
+    var d = new Date(s);
+    return d.getFullYear() + '/' + (d.getMonth()+1) + '/' + d.getDate();
+}
+
+function fmtMoney(n) {
+    return '¥' + Number(n||0).toLocaleString();
+}
+
+function showToast(msg) {
+    var t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    clearTimeout(t._t);
+    t._t = setTimeout(function(){ t.classList.remove('show'); }, 1800);
+}
+
+function closeModal(id) {
+    document.getElementById(id).classList.remove('open');
+}
+
+function esc(s) {
+    return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function expenseTotalByStatus(status) {
+    return data.expenses.filter(function(e){ return e.status === status; })
+        .reduce(function(s,e){ return s + (Number(e.amount)||0); }, 0);
+}
+
+function getGrossFunds() {
+    return (Number(data.funds.incoming)||0) + (Number(data.funds.wechat)||0);
+}
+
+function getAvailableFunds() {
+    return getGrossFunds() - expenseTotalByStatus('paid');
+}
+
+function renderFundTotal() {
+    document.getElementById('fund-total-val').textContent = fmtMoney(getAvailableFunds());
+}
+
+// Modal overlay click to close
+document.querySelectorAll('.modal-overlay').forEach(function(el) {
+    el.addEventListener('click', function(e) {
+        if (e.target === el) el.classList.remove('open');
+    });
+});
+
+// ── Tab 切换 ──────────────────────────────────────────
+function switchTab(el, tab) {
+    document.querySelectorAll('.tab').forEach(function(t){ t.classList.remove('active'); });
+    document.querySelectorAll('.panel').forEach(function(p){ p.classList.remove('active'); });
+    el.classList.add('active');
+    document.getElementById('panel-' + tab).classList.add('active');
+    if (tab === 'funds')  renderFunds();
+    if (tab === 'tracks') renderTracks();
+    if (tab === 'todos')  renderTodos();
+}
+
+// ── 资金模块 ──────────────────────────────────────────
+function renderFunds() {
+    // Fund inputs
+    document.getElementById('f-incoming').value = data.funds.incoming || 0;
+    document.getElementById('f-wechat').value   = data.funds.wechat   || 0;
+
+    renderFundTotal();
+
+    // Frozen
+    renderFrozen();
+
+    // Potentials
+    renderPotentials();
+
+    // Expenses
+    renderExpenses();
+
+    // Stats
+    renderStats();
+
+    // Compare
+    renderCompare();
+
+    // Survival line
+    renderSurvivalLine();
+}
+
+function saveFundAmounts() {
+    data.funds.incoming = Number(document.getElementById('f-incoming').value) || 0;
+    data.funds.wechat   = Number(document.getElementById('f-wechat').value)   || 0;
+    saveData();
+    renderFundTotal();
+    renderStats();
+    renderCompare();
+    renderSurvivalLine();
+    showToast('✓ 已保存');
+}
+
+function renderStats() {
+    var available = getAvailableFunds();
+    var paidTotal = expenseTotalByStatus('paid');
+    var frozen    = data.frozen.reduce(function(s,f){ return s + (Number(f.amount)||0); }, 0);
+
+    var potMin = data.potentials.filter(function(p){ return p.status !== 'received'; })
+                     .reduce(function(s,p){ return s + (Number(p.amountMin)||0); }, 0);
+    var potMax = data.potentials.filter(function(p){ return p.status !== 'received'; })
+                     .reduce(function(s,p){ return s + (Number(p.amountMax)||0); }, 0);
+
+    var pendingTotal = expenseTotalByStatus('pending');
+    var netRemain = available;
+
+    var potStr = potMin === potMax ? fmtMoney(potMin) : fmtMoney(potMin) + '~' + fmtMoney(potMax);
+
+    document.getElementById('fund-stats').innerHTML =
+        '<div class="stat-card green">' +
+            '<div class="sc-label">🟢 可动用现金</div>' +
+            '<div class="sc-value">' + fmtMoney(available) + '</div>' +
+            '<div class="sc-sub">进账 + 微信余额 - 已付支出（' + fmtMoney(paidTotal) + '）</div>' +
+        '</div>' +
+        '<div class="stat-card red">' +
+            '<div class="sc-label">🔴 冻结资金</div>' +
+            '<div class="sc-value">' + fmtMoney(frozen) + '</div>' +
+            '<div class="sc-sub">共 ' + data.frozen.length + ' 项</div>' +
+        '</div>' +
+        '<div class="stat-card yellow">' +
+            '<div class="sc-label">🟡 潜在收入</div>' +
+            '<div class="sc-value" style="font-size:20px">' + potStr + '</div>' +
+            '<div class="sc-sub">未到账项</div>' +
+        '</div>' +
+        '<div class="stat-card blue">' +
+            '<div class="sc-label">实际剩余</div>' +
+            '<div class="sc-value" style="color:' + (netRemain >= 0 ? '#34c759' : '#ff3b30') + '">' + fmtMoney(netRemain) + '</div>' +
+            '<div class="sc-sub">待付 ' + fmtMoney(pendingTotal) + ' 单独显示，未扣减</div>' +
+        '</div>';
+}
+
+// ── 冻结资金 ──────────────────────────────────────────
+function renderFrozen() {
+    var list  = document.getElementById('frozen-list');
+    var empty = document.getElementById('frozen-empty');
+    if (data.frozen.length === 0) {
+        list.innerHTML = '';
+        empty.style.display = '';
+        return;
+    }
+    empty.style.display = 'none';
+    list.innerHTML = data.frozen.map(function(f) {
+        return '<div class="frozen-item">' +
+            '<div class="fi-info">' +
+                '<div class="fi-name">' + esc(f.name) + '</div>' +
+                (f.reason ? '<div class="fi-reason">' + esc(f.reason) + '</div>' : '') +
+            '</div>' +
+            '<div class="fi-amount">' + fmtMoney(f.amount) + '</div>' +
+            '<div class="fi-actions">' +
+                '<button class="btn btn-secondary btn-sm" data-id="' + f.id + '" onclick="openFrozenModal(this.dataset.id)">编辑</button>' +
+                '<button class="btn btn-danger btn-sm" data-id="' + f.id + '" onclick="deleteFrozen(this.dataset.id)">删除</button>' +
+            '</div>' +
+        '</div>';
+    }).join('');
+}
+
+function openFrozenModal(id) {
+    document.getElementById('frozen-modal-title').textContent = id ? '编辑冻结资金' : '添加冻结资金';
+    document.getElementById('frozen-id').value = id || '';
+    if (id) {
+        var f = data.frozen.find(function(x){ return x.id === id; });
+        if (f) {
+            document.getElementById('frz-name').value   = f.name;
+            document.getElementById('frz-amount').value = f.amount;
+            document.getElementById('frz-reason').value = f.reason || '';
+        }
+    } else {
+        document.getElementById('frz-name').value   = '';
+        document.getElementById('frz-amount').value = '';
+        document.getElementById('frz-reason').value = '';
+    }
+    document.getElementById('frozen-modal').classList.add('open');
+    document.getElementById('frz-name').focus();
+}
+
+function saveFrozen() {
+    var name   = document.getElementById('frz-name').value.trim();
+    var amount = document.getElementById('frz-amount').value;
+    if (!name || !amount) { alert('请填写名称和金额'); return; }
+    var id = document.getElementById('frozen-id').value;
+    var obj = { name: name, amount: Number(amount), reason: document.getElementById('frz-reason').value.trim() };
+    if (id) {
+        var idx = data.frozen.findIndex(function(f){ return f.id === id; });
+        data.frozen[idx] = Object.assign({}, data.frozen[idx], obj);
+    } else {
+        obj.id = uid();
+        data.frozen.push(obj);
+    }
+    saveData();
+    closeModal('frozen-modal');
+    renderFrozen();
+    renderStats();
+    renderCompare();
+    showToast('✓ 已保存');
+}
+
+function deleteFrozen(id) {
+    if (!confirm('确定删除该冻结项？')) return;
+    data.frozen = data.frozen.filter(function(f){ return f.id !== id; });
+    saveData();
+    renderFrozen();
+    renderStats();
+    renderCompare();
+    showToast('✓ 已删除');
+}
+
+// ── 潜在收入 ──────────────────────────────────────────
+function potStatusBadge(s) {
+    if (s === 'pending')    return '<span class="badge badge-pending">待处理</span>';
+    if (s === 'processing') return '<span class="badge badge-processing">进行中</span>';
+    if (s === 'received')   return '<span class="badge badge-received">已到账</span>';
+    return '';
+}
+
+function renderPotentials() {
+    var tbody = document.getElementById('potential-list');
+    var empty = document.getElementById('potential-empty');
+    if (data.potentials.length === 0) {
+        tbody.innerHTML = '';
+        empty.style.display = '';
+        return;
+    }
+    empty.style.display = 'none';
+    tbody.innerHTML = data.potentials.map(function(p) {
+        var amtStr = p.amountMin === p.amountMax
+            ? fmtMoney(p.amountMin)
+            : fmtMoney(p.amountMin) + '~' + fmtMoney(p.amountMax);
+        return '<tr>' +
+            '<td><strong>' + esc(p.name) + '</strong></td>' +
+            '<td style="color:#b8860b;font-weight:600">' + amtStr + '</td>' +
+            '<td style="color:#888;font-size:13px">' + esc(p.note||'') + '</td>' +
+            '<td>' + potStatusBadge(p.status) + '</td>' +
+            '<td>' +
+                '<button class="btn btn-secondary btn-sm" data-id="' + p.id + '" onclick="openPotentialModal(this.dataset.id)">编辑</button> ' +
+                '<button class="btn btn-danger btn-sm" data-id="' + p.id + '" onclick="deletePotential(this.dataset.id)">删除</button>' +
+            '</td>' +
+        '</tr>';
+    }).join('');
+}
+
+function openPotentialModal(id) {
+    document.getElementById('potential-modal-title').textContent = id ? '编辑潜在收入' : '添加潜在收入';
+    document.getElementById('potential-id').value = id || '';
+    if (id) {
+        var p = data.potentials.find(function(x){ return x.id === id; });
+        if (p) {
+            document.getElementById('pot-name').value   = p.name;
+            document.getElementById('pot-min').value    = p.amountMin;
+            document.getElementById('pot-max').value    = p.amountMax;
+            document.getElementById('pot-note').value   = p.note || '';
+            document.getElementById('pot-status').value = p.status;
+        }
+    } else {
+        document.getElementById('pot-name').value   = '';
+        document.getElementById('pot-min').value    = '';
+        document.getElementById('pot-max').value    = '';
+        document.getElementById('pot-note').value   = '';
+        document.getElementById('pot-status').value = 'pending';
+    }
+    document.getElementById('potential-modal').classList.add('open');
+    document.getElementById('pot-name').focus();
+}
+
+function savePotential() {
+    var name = document.getElementById('pot-name').value.trim();
+    var min  = document.getElementById('pot-min').value;
+    if (!name || !min) { alert('请填写名称和最低预估金额'); return; }
+    var id  = document.getElementById('potential-id').value;
+    var max = document.getElementById('pot-max').value || min;
+    var obj = {
+        name: name,
+        amountMin: Number(min),
+        amountMax: Number(max),
+        note: document.getElementById('pot-note').value.trim(),
+        status: document.getElementById('pot-status').value
+    };
+    if (id) {
+        var idx = data.potentials.findIndex(function(p){ return p.id === id; });
+        data.potentials[idx] = Object.assign({}, data.potentials[idx], obj);
+    } else {
+        obj.id = uid();
+        data.potentials.push(obj);
+    }
+    saveData();
+    closeModal('potential-modal');
+    renderPotentials();
+    renderStats();
+    showToast('✓ 已保存');
+}
+
+function deletePotential(id) {
+    if (!confirm('确定删除该潜在收入项？')) return;
+    data.potentials = data.potentials.filter(function(p){ return p.id !== id; });
+    saveData();
+    renderPotentials();
+    renderStats();
+    showToast('✓ 已删除');
+}
+
+// ── 支出锁定 ──────────────────────────────────────────
+function expStatusBadge(s) {
+    if (s === 'paid')    return '<span class="badge badge-paid">已付</span>';
+    if (s === 'pending') return '<span class="badge badge-pending-exp">待付</span>';
+    if (s === 'locked')  return '<span class="badge badge-locked">已锁定</span>';
+    return '';
+}
+
+function renderExpenses() {
+    var tbody = document.getElementById('expense-list');
+    var empty = document.getElementById('expense-empty');
+    if (data.expenses.length === 0) {
+        tbody.innerHTML = '';
+        empty.style.display = '';
+        return;
+    }
+    empty.style.display = 'none';
+    tbody.innerHTML = data.expenses.map(function(e) {
+        var days = daysUntil(e.deadline);
+        var dlStyle = '';
+        var dlText  = e.deadline ? fmtDate(e.deadline) : '—';
+        if (days !== null) {
+            if (days < 0)     dlStyle = 'color:#ff3b30;font-weight:600';
+            else if (days === 0) dlStyle = 'color:#ff9500;font-weight:600';
+        }
+        return '<tr>' +
+            '<td><strong>' + esc(e.name) + '</strong></td>' +
+            '<td style="color:#ff3b30;font-weight:600">' + fmtMoney(e.amount) + '</td>' +
+            '<td style="' + dlStyle + '">' + dlText + '</td>' +
+            '<td>' + expStatusBadge(e.status) + '</td>' +
+            '<td>' +
+                '<button class="btn btn-secondary btn-sm" data-id="' + e.id + '" onclick="openExpenseModal(this.dataset.id)">编辑</button> ' +
+                '<button class="btn btn-danger btn-sm" data-id="' + e.id + '" onclick="deleteExpense(this.dataset.id)">删除</button>' +
+            '</td>' +
+        '</tr>';
+    }).join('');
+}
+
+function openExpenseModal(id) {
+    document.getElementById('expense-modal-title').textContent = id ? '编辑支出项目' : '添加支出项目';
+    document.getElementById('expense-id').value = id || '';
+    if (id) {
+        var e = data.expenses.find(function(x){ return x.id === id; });
+        if (e) {
+            document.getElementById('exp-name').value     = e.name;
+            document.getElementById('exp-amount').value   = e.amount;
+            document.getElementById('exp-deadline').value = e.deadline || '';
+            document.getElementById('exp-status').value   = e.status;
+        }
+    } else {
+        document.getElementById('exp-name').value     = '';
+        document.getElementById('exp-amount').value   = '';
+        document.getElementById('exp-deadline').value = '';
+        document.getElementById('exp-status').value   = 'pending';
+    }
+    document.getElementById('expense-modal').classList.add('open');
+    document.getElementById('exp-name').focus();
+}
+
+function saveExpense() {
+    var name   = document.getElementById('exp-name').value.trim();
+    var amount = document.getElementById('exp-amount').value;
+    if (!name || !amount) { alert('请填写名称和金额'); return; }
+    var id  = document.getElementById('expense-id').value;
+    var obj = {
+        name: name,
+        amount: Number(amount),
+        deadline: document.getElementById('exp-deadline').value,
+        status: document.getElementById('exp-status').value
+    };
+    if (id) {
+        var idx = data.expenses.findIndex(function(e){ return e.id === id; });
+        data.expenses[idx] = Object.assign({}, data.expenses[idx], obj);
+    } else {
+        obj.id = uid();
+        data.expenses.push(obj);
+    }
+    saveData();
+    closeModal('expense-modal');
+    renderExpenses();
+    renderFundTotal();
+    renderStats();
+    renderCompare();
+    renderSurvivalLine();
+    showToast('✓ 已保存');
+}
+
+function deleteExpense(id) {
+    if (!confirm('确定删除该支出项？')) return;
+    data.expenses = data.expenses.filter(function(e){ return e.id !== id; });
+    saveData();
+    renderExpenses();
+    renderFundTotal();
+    renderStats();
+    renderCompare();
+    renderSurvivalLine();
+    showToast('✓ 已删除');
+}
+
+// ── 本月 vs 下月对比 ──────────────────────────────────────────
+function renderCompare() {
+    var available = getAvailableFunds();
+    var pendingTotal = expenseTotalByStatus('pending');
+    var lockedTotal  = expenseTotalByStatus('locked');
+    var thisMonthNet = available;
+    var nextMonthIncome = Number(data.funds.nextMonthIncome) || 0;
+    var nextEstimate = thisMonthNet + nextMonthIncome - lockedTotal;
+
+    document.getElementById('compare-grid').innerHTML =
+        '<div class="compare-col">' +
+            '<h3>本月</h3>' +
+            '<div class="compare-row"><span>可动用现金</span><span class="cr-pos">' + fmtMoney(available) + '</span></div>' +
+            '<div class="compare-row"><span>待付支出（未扣减）</span><span class="cr-neg">' + fmtMoney(pendingTotal) + '</span></div>' +
+            '<div class="compare-row"><span>本月实时余额</span><span style="color:' + (thisMonthNet>=0?'#34c759':'#ff3b30') + ';font-weight:700">' + fmtMoney(thisMonthNet) + '</span></div>' +
+        '</div>' +
+        '<div class="compare-col">' +
+            '<h3>下月</h3>' +
+            '<div class="compare-row"><span>下月预计新收入</span><span class="next-income-wrap"><input type="number" id="next-income-input" value="' + nextMonthIncome + '" onblur="saveNextMonthIncome()" placeholder="0"></span></div>' +
+            '<div class="compare-row"><span>锁定支出</span><span class="cr-neg">- ' + fmtMoney(lockedTotal) + '</span></div>' +
+            '<div class="compare-row"><span>预计余额</span><span style="color:' + (nextEstimate>=0?'#34c759':'#ff3b30') + ';font-weight:700">' + fmtMoney(nextEstimate) + '</span></div>' +
+        '</div>';
+}
+
+function saveNextMonthIncome() {
+    var input = document.getElementById('next-income-input');
+    if (!input) return;
+    data.funds.nextMonthIncome = Number(input.value) || 0;
+    saveData();
+    renderStats();
+    renderCompare();
+    showToast('✓ 已保存');
+}
+
+// ── 生存保障线 ──────────────────────────────────────────
+function renderSurvivalLine() {
+    var available  = getAvailableFunds();
+    var monthlyExp = Number(data.funds.monthlyExpense) || 5000;
+
+    var expInput = document.getElementById('sv-monthly-exp');
+    if (expInput) expInput.value = monthlyExp;
+
+    var months  = monthlyExp > 0 ? available / monthlyExp : 0;
+    var maxMo   = 6;
+    var pct     = Math.min(months / maxMo, 1.0) * 100;
+    // fill color by tier
+    var fillColor = months <= 1 ? '#ff3b30'
+                  : months <= 3 ? '#ff9500'
+                  : months <= 6 ? '#34c759'
+                  : '#007aff';
+
+    // 6 equidistant tick marks (1–6 months)
+    // Labels sit above the bar (top:0); tick lines overlay the bar (top:22px)
+    var ticks = '';
+    for (var i = 1; i <= maxMo; i++) {
+        var tickPct      = (i / maxMo) * 100;
+        // last label right-aligned to stay inside the container
+        var labelXform   = i === maxMo ? 'translateX(-100%)' : 'translateX(-50%)';
+        ticks +=
+            '<div style="position:absolute;top:0;left:' + tickPct + '%;transform:' + labelXform + ';font-size:11px;color:#aaa;line-height:1;white-space:nowrap">' + i + '</div>' +
+            '<div style="position:absolute;left:' + tickPct + '%;top:22px;width:2px;height:16px;background:rgba(0,0,0,0.15);transform:translateX(-50%);pointer-events:none"></div>';
+    }
+
+    var barHtml = ticks +
+        '<div class="sv-track">' +
+            '<div class="sv-fill" style="width:' + pct + '%;background:' + fillColor + '"></div>' +
+        '</div>';
+
+    document.getElementById('sv-bar-wrap').innerHTML = barHtml;
+
+    // Target date: days = months * 30.4
+    var targetDate = new Date(Date.now() + Math.round(months * 30.4) * 86400000);
+    var targetStr  = targetDate.getFullYear() + '年' + (targetDate.getMonth() + 1) + '月';
+
+    document.getElementById('sv-info-text').innerHTML =
+        '当前可用 <strong>' + fmtMoney(available) + '</strong>' +
+        ' &nbsp;→&nbsp; 可覆盖 <strong>' + months.toFixed(1) + ' 个月</strong>' +
+        ' &nbsp;→&nbsp; 预计保障至 <strong>' + targetStr + '</strong>';
+
+    var statusHtml =
+        months <= 1 ? '<span class="survival-status sv-status-red">🔴 需立即行动</span>'
+      : months <= 3 ? '<span class="survival-status sv-status-orange">🟡 需要关注</span>'
+      : months <= 6 ? '<span class="survival-status sv-status-green">🟢 基本稳定</span>'
+      :               '<span class="survival-status sv-status-blue">💎 财务自由</span>';
+
+    document.getElementById('sv-status-badge').innerHTML = statusHtml;
+}
+
+function saveSurvivalExpense() {
+    var val = Number(document.getElementById('sv-monthly-exp').value) || 5000;
+    if (val < 1) val = 1;
+    data.funds.monthlyExpense = val;
+    saveData();
+    renderSurvivalLine();
+    showToast('✓ 已保存');
+}
+
+// ── 收入轨道 ──────────────────────────────────────────
+function stageBadge(stage) {
+    if (!stage) return '';
+    var cls = 'badge-stage-idle';
+    var s = stage.toLowerCase();
+    if (s.indexOf('待启动') !== -1)       cls = 'badge-stage-idle';
+    else if (s.indexOf('已成交') !== -1)  cls = 'badge-stage-done';
+    else if (s.indexOf('简历') !== -1)    cls = 'badge-stage-orange';
+    else                                   cls = 'badge-stage-active';
+    return '<span class="badge ' + cls + '">' + esc(stage) + '</span>';
+}
+
+function fmtUpdatedAt(iso) {
+    if (!iso) return '';
+    var d = new Date(iso);
+    return d.getFullYear() + '/' + (d.getMonth()+1) + '/' + d.getDate();
+}
+
+function renderTracks() {
+    var grid  = document.getElementById('tracks-grid');
+    var empty = document.getElementById('tracks-empty');
+    if (data.tracks.length === 0) {
+        grid.innerHTML = '';
+        empty.style.display = '';
+        return;
+    }
+    empty.style.display = 'none';
+    grid.innerHTML = data.tracks.map(function(t) {
+        var incomeStr = t.estimatedMonthly
+            ? '<span class="tc-income">预估月收入：' + fmtMoney(t.estimatedMonthly) + '</span>'
+            : '<span style="color:#ccc;font-size:12px">月收入待定</span>';
+        return '<div class="track-card">' +
+            '<div class="tc-name">' + esc(t.name) + '</div>' +
+            '<div class="tc-stage">' + stageBadge(t.stage) + '</div>' +
+            '<div class="tc-next">→ ' + esc(t.nextAction || '暂无下一步') + '</div>' +
+            '<div class="tc-meta">' +
+                incomeStr +
+                '<span style="color:#ccc;font-size:11px">更新：' + fmtUpdatedAt(t.updatedAt) + '</span>' +
+            '</div>' +
+            '<div style="margin-top:12px;text-align:right">' +
+                '<button class="btn btn-secondary btn-sm" data-id="' + t.id + '" onclick="openTrackModal(this.dataset.id)">编辑</button> ' +
+                '<button class="btn btn-danger btn-sm" data-id="' + t.id + '" onclick="deleteTrack(this.dataset.id)">删除</button>' +
+            '</div>' +
+        '</div>';
+    }).join('');
+}
+
+function openTrackModal(id) {
+    document.getElementById('track-modal-title').textContent = id ? '编辑收入轨道' : '添加收入轨道';
+    document.getElementById('track-id').value = id || '';
+    if (id) {
+        var t = data.tracks.find(function(x){ return x.id === id; });
+        if (t) {
+            document.getElementById('trk-name').value   = t.name;
+            document.getElementById('trk-stage').value  = t.stage || '';
+            document.getElementById('trk-next').value   = t.nextAction || '';
+            document.getElementById('trk-income').value = t.estimatedMonthly || 0;
+        }
+    } else {
+        document.getElementById('trk-name').value   = '';
+        document.getElementById('trk-stage').value  = '';
+        document.getElementById('trk-next').value   = '';
+        document.getElementById('trk-income').value = 0;
+    }
+    document.getElementById('track-modal').classList.add('open');
+    document.getElementById('trk-name').focus();
+}
+
+function saveTrack() {
+    var name = document.getElementById('trk-name').value.trim();
+    if (!name) { alert('请填写轨道名称'); return; }
+    var id  = document.getElementById('track-id').value;
+    var obj = {
+        name: name,
+        stage:            document.getElementById('trk-stage').value.trim(),
+        nextAction:       document.getElementById('trk-next').value.trim(),
+        estimatedMonthly: Number(document.getElementById('trk-income').value) || 0,
+        updatedAt:        new Date().toISOString()
+    };
+    if (id) {
+        var idx = data.tracks.findIndex(function(t){ return t.id === id; });
+        data.tracks[idx] = Object.assign({}, data.tracks[idx], obj);
+    } else {
+        obj.id = uid();
+        data.tracks.push(obj);
+    }
+    saveData();
+    closeModal('track-modal');
+    renderTracks();
+    showToast('✓ 已保存');
+}
+
+function deleteTrack(id) {
+    if (!confirm('确定删除该收入轨道？')) return;
+    data.tracks = data.tracks.filter(function(t){ return t.id !== id; });
+    saveData();
+    renderTracks();
+    showToast('✓ 已删除');
+}
+
+// ── 本周待办 ──────────────────────────────────────────
+function todoDeadlineBadge(deadline) {
+    if (!deadline) return '';
+    var days = daysUntil(deadline);
+    var cls, label;
+    if (days < 0)       { cls = 'ti-dl-overdue'; label = '已过期'; }
+    else if (days === 0){ cls = 'ti-dl-today';   label = '今天到期'; }
+    else                { cls = 'ti-dl-normal';  label = fmtDate(deadline); }
+    return '<span class="ti-deadline ' + cls + '">' + label + '</span>';
+}
+
+function renderTodos() {
+    var list  = document.getElementById('todo-list');
+    var empty = document.getElementById('todo-empty');
+    if (data.todos.length === 0) {
+        list.innerHTML = '';
+        empty.style.display = '';
+        return;
+    }
+    empty.style.display = 'none';
+    list.innerHTML = data.todos.map(function(td) {
+        return '<div class="todo-item' + (td.done ? ' done' : '') + '">' +
+            '<input type="checkbox" ' + (td.done ? 'checked' : '') + ' data-id="' + td.id + '" onchange="toggleTodo(this.dataset.id)">' +
+            '<span class="ti-text">' + esc(td.text) + '</span>' +
+            todoDeadlineBadge(td.deadline) +
+            '<button class="ti-del" data-id="' + td.id + '" onclick="deleteTodo(this.dataset.id)" title="删除">✕</button>' +
+        '</div>';
+    }).join('');
+}
+
+function addTodo() {
+    var text = document.getElementById('todo-input').value.trim();
+    if (!text) { document.getElementById('todo-input').focus(); return; }
+    var deadline = document.getElementById('todo-date').value || '';
+    data.todos.push({ id: uid(), text: text, done: false, deadline: deadline });
+    saveData();
+    document.getElementById('todo-input').value = '';
+    document.getElementById('todo-date').value  = '';
+    renderTodos();
+    showToast('✓ 已添加');
+}
+
+function toggleTodo(id) {
+    var td = data.todos.find(function(x){ return x.id === id; });
+    if (td) { td.done = !td.done; saveData(); renderTodos(); }
+}
+
+function deleteTodo(id) {
+    data.todos = data.todos.filter(function(td){ return td.id !== id; });
+    saveData();
+    renderTodos();
+    showToast('✓ 已删除');
+}
+
+// ── 导出 / 导入 ──────────────────────────────────────────
+function exportData() {
+    var payload = {
+        version: 1,
+        exportedAt: new Date().toISOString(),
+        data: {
+            funds:      data.funds,
+            frozen:     data.frozen,
+            potentials: data.potentials,
+            expenses:   data.expenses,
+            tracks:     data.tracks,
+            todos:      data.todos
+        }
+    };
+    var json = JSON.stringify(payload, null, 2);
+    var blob = new Blob([json], { type: 'application/json' });
+    var url  = URL.createObjectURL(blob);
+    var a    = document.createElement('a');
+    var now  = new Date();
+    var ds   = now.getFullYear() + '-' + String(now.getMonth()+1).padStart(2,'0') + '-' + String(now.getDate()).padStart(2,'0');
+    a.href     = url;
+    a.download = '现金流数据备份_' + ds + '.json';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    showToast('✓ 数据已导出');
+}
+
+function importData(input) {
+    var file = input.files[0];
+    if (!file) return;
+    var reader = new FileReader();
+    reader.onload = function(e) {
+        try {
+            var parsed = JSON.parse(e.target.result);
+            var d = parsed.data || parsed;
+            if (!d || typeof d !== 'object') { alert('文件格式错误，请选择正确的备份文件'); input.value = ''; return; }
+            if (!confirm('导入将覆盖当前所有数据，确认继续？')) { input.value = ''; return; }
+            if (d.funds)      data.funds      = d.funds;
+            if (d.frozen)     data.frozen     = d.frozen;
+            if (d.potentials) data.potentials = d.potentials;
+            if (d.expenses)   data.expenses   = d.expenses;
+            if (d.tracks)     data.tracks     = d.tracks;
+            if (d.todos)      data.todos      = d.todos;
+            saveData();
+            renderFunds();
+            renderTracks();
+            renderTodos();
+            showToast('✓ 导入成功');
+        } catch(err) {
+            alert('文件解析失败，请确保选择了正确的 JSON 备份文件');
+        }
+        input.value = '';
+    };
+    reader.readAsText(file, 'UTF-8');
+}
+
+// ── 初始化 ──────────────────────────────────────────
+renderFunds();
+</script>
+</body>
+</html>
