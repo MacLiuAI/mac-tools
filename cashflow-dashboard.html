@@ -187,6 +187,10 @@
                 .global-nav-link { display: inline-block; background: #efefef; color: #1d1d1f; border: 1px solid #c8c8c8; font-size: 12px; padding: 5px 12px; border-radius: 7px; text-decoration: none; transition: all 0.15s; font-weight: 500; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
         .global-nav-link:hover { background: #e2e2e2; color: #1d1d1f; box-shadow: 0 2px 4px rgba(0,0,0,0.14); }
         .global-nav-link.active { background: #1d1d1f; color: #fff; border-color: #1d1d1f; }
+        .frozen-notice { background: #fff8e1; border: 1px solid #ffe082; border-radius: 10px; padding: 12px 16px; }
+        .frozen-notice .fn-title { font-size: 12px; font-weight: 600; color: #f57c00; margin-bottom: 8px; }
+        .frozen-notice .fn-item { display: flex; justify-content: space-between; align-items: center; padding: 5px 0; font-size: 13px; }
+        .fn-amount { font-weight: 600; }
 </style>
 </head>
 <body>
@@ -466,6 +470,13 @@
     </div>
 </div>
 
+<div class="frozen-notice" style="margin:16px 24px 0">
+    <div class="fn-title">⚠️ 待处理事项</div>
+    <div class="fn-item">
+        <span class="fn-name">工行卡冻结 · 房贷问题</span>
+        <span class="fn-amount" style="color:#e65100">￥3,500</span>
+    </div>
+</div>
 <div class="toast" id="toast"></div>
 
 <script>
@@ -658,11 +669,6 @@ function renderStats() {
             '<div class="sc-label">实际剩余</div>' +
             '<div class="sc-value" style="color:' + (netRemain >= 0 ? '#34c759' : '#ff3b30') + '">' + fmtMoney(netRemain) + '</div>' +
             '<div class="sc-sub">待付 ' + fmtMoney(pendingTotal) + ' 单独显示，未扣减</div>' +
-        '</div>' +
-        '<div class="stat-card red">' +
-            '<div class="sc-label">🔴 冻结资金</div>' +
-            '<div class="sc-value">' + fmtMoney(frozen) + '</div>' +
-            '<div class="sc-sub">共 ' + data.frozen.length + ' 项</div>' +
         '</div>';
 }
 
