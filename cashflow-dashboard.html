@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>现金流仪表盘 · Mac</title>
+    <title>Mac 现金流</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { font-family: -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif; background: #f5f5f7; color: #1d1d1f; min-height: 100vh; }
@@ -193,8 +193,8 @@
 
 <div class="header">
     <div>
-        <h1>💰 现金流仪表盘</h1>
-        <div class="header-sub">数据保存在本地，关闭浏览器不丢失</div>
+        <h1>💰 Mac 现金流</h1>
+        <div class="header-sub" id="cf-updated-at">最后更新：—</div>
     </div>
     <div class="header-right">
         <nav class="global-nav" aria-label="全局导航">
@@ -1244,6 +1244,7 @@ function importData(input) {
 
 // ── 初始化 ──────────────────────────────────────────
 renderFunds();
+(function(){var el=document.getElementById("cf-updated-at");if(!el)return;var d=new Date();el.textContent="最后更新："+d.toLocaleDateString("zh-CN",{year:"numeric",month:"long",day:"numeric"})+" "+d.toLocaleTimeString("zh-CN",{hour:"2-digit",minute:"2-digit"});})();
 </script>
 </body>
 </html>
