@@ -649,11 +649,6 @@ function renderStats() {
             '<div class="sc-value">' + fmtMoney(available) + '</div>' +
             '<div class="sc-sub">进账 + 微信余额 - 已付支出（' + fmtMoney(paidTotal) + '）</div>' +
         '</div>' +
-        '<div class="stat-card red">' +
-            '<div class="sc-label">🔴 冻结资金</div>' +
-            '<div class="sc-value">' + fmtMoney(frozen) + '</div>' +
-            '<div class="sc-sub">共 ' + data.frozen.length + ' 项</div>' +
-        '</div>' +
         '<div class="stat-card yellow">' +
             '<div class="sc-label">🟡 潜在收入</div>' +
             '<div class="sc-value" style="font-size:20px">' + potStr + '</div>' +
@@ -663,6 +658,11 @@ function renderStats() {
             '<div class="sc-label">实际剩余</div>' +
             '<div class="sc-value" style="color:' + (netRemain >= 0 ? '#34c759' : '#ff3b30') + '">' + fmtMoney(netRemain) + '</div>' +
             '<div class="sc-sub">待付 ' + fmtMoney(pendingTotal) + ' 单独显示，未扣减</div>' +
+        '</div>' +
+        '<div class="stat-card red">' +
+            '<div class="sc-label">🔴 冻结资金</div>' +
+            '<div class="sc-value">' + fmtMoney(frozen) + '</div>' +
+            '<div class="sc-sub">共 ' + data.frozen.length + ' 项</div>' +
         '</div>';
 }
 
