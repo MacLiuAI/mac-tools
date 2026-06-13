@@ -262,18 +262,6 @@
             <div class="fund-total">合计可动用现金（已扣已付支出）：<span id="fund-total-val">¥0</span></div>
         </div>
 
-        <!-- 冻结资金 -->
-        <div class="card">
-            <div class="section-header">
-                <h2>🔴 冻结资金</h2>
-                <button class="btn btn-primary btn-sm" onclick="openFrozenModal()">＋ 添加</button>
-            </div>
-            <div class="frozen-list" id="frozen-list"></div>
-            <div id="frozen-empty" class="empty" style="display:none">
-                <div class="icon">🔓</div><p>暂无冻结资金</p>
-            </div>
-        </div>
-
         <!-- 潜在收入 -->
         <div class="card">
             <div class="section-header">
@@ -312,6 +300,18 @@
         <div class="card">
             <div class="section-header"><h2>📊 本月 vs 下月对比</h2></div>
             <div class="compare-grid" id="compare-grid"></div>
+        </div>
+
+        <!-- 冻结资金 -->
+        <div class="card">
+            <div class="section-header">
+                <h2>🔴 冻结资金</h2>
+                <button class="btn btn-primary btn-sm" onclick="openFrozenModal()">＋ 添加</button>
+            </div>
+            <div class="frozen-list" id="frozen-list"></div>
+            <div id="frozen-empty" class="empty" style="display:none">
+                <div class="icon">🔓</div><p>暂无冻结资金</p>
+            </div>
         </div>
 
     </div>
