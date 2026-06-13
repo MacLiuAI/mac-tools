@@ -13,8 +13,11 @@
         .header h1 { font-size: 20px; font-weight: 600; }
         .header-sub { font-size: 12px; color: #888; margin-top: 2px; }
         .header-right { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
-        .nav-link { display: inline-block; background: rgba(0,0,0,0.06); color: #1d1d1f; border: 1px solid rgba(0,0,0,0.12); font-size: 12px; padding: 5px 11px; border-radius: 7px; text-decoration: none; transition: all 0.15s; }
-        .nav-link:hover { background: rgba(0,0,0,0.1); color: #1d1d1f; }
+        .nav-link { display: inline-block; background: #efefef; color: #1d1d1f; border: 1px solid #c8c8c8; font-size: 12px; padding: 5px 12px; border-radius: 7px; text-decoration: none; transition: all 0.15s; font-weight: 500; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        .global-nav-link { display: inline-block; background: #efefef; color: #1d1d1f; border: 1px solid #c8c8c8; font-size: 12px; padding: 5px 12px; border-radius: 7px; text-decoration: none; transition: all 0.15s; font-weight: 500; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        .nav-link:hover { background: #e2e2e2; color: #1d1d1f; box-shadow: 0 2px 4px rgba(0,0,0,0.14); }
+        .global-nav-link:hover { background: #e2e2e2; color: #1d1d1f; box-shadow: 0 2px 4px rgba(0,0,0,0.14); }
+        .global-nav-link.active { background: #1d1d1f; color: #fff; border-color: #1d1d1f; }
         .btn-refresh { background: rgba(0,0,0,0.06); color: #1d1d1f; border: 1px solid rgba(0,0,0,0.15); font-size: 13px; padding: 7px 13px; border-radius: 8px; cursor: pointer; transition: background 0.15s; font-family: inherit; }
         .btn-refresh:hover { background: rgba(0,0,0,0.1); }
 
@@ -118,6 +121,13 @@
         /* Empty / Toast */
         .empty { text-align: center; padding: 20px; color: #bbb; font-size: 13px; }
         .toast { position: fixed; bottom: 24px; right: 24px; background: #1d1d1f; color: white; padding: 10px 16px; border-radius: 10px; font-size: 13px; z-index: 200; opacity: 0; transform: translateY(8px); transition: all 0.25s; pointer-events: none; }
+        /* Frozen Notice */
+        .frozen-notice { background: #fff8e1; border: 1px solid #ffe082; border-radius: 10px; padding: 12px 16px; margin-bottom: 16px; }
+        .frozen-notice .fn-title { font-size: 12px; font-weight: 600; color: #f57c00; margin-bottom: 8px; }
+        .frozen-notice .fn-item { display: flex; justify-content: space-between; align-items: center; padding: 5px 0; border-bottom: 1px solid rgba(255,224,130,0.5); font-size: 13px; }
+        .frozen-notice .fn-item:last-child { border-bottom: none; }
+        .frozen-notice .fn-name { color: #555; }
+        .frozen-notice .fn-amount { font-weight: 600; color: #e65100; }
         .toast.show { opacity: 1; transform: translateY(0); }
 
         /* Responsive */
@@ -203,13 +213,23 @@
 
         </div>
 
-        <!-- 右栏 40%：业务区 -->
+        
+            <!-- 待处理提醒 -->
+            <div class="frozen-notice">
+                <div class="fn-title">⚠️ 待处理事项</div>
+                <div class="fn-item">
+                    <span class="fn-name">工行卡冻结 · 房贷问题</span>
+                    <span class="fn-amount">¥3,500</span>
+                </div>
+            </div>
+
+            <!-- 右栏 40%：业务区 -->
         <div class="right-col">
 
-            <!-- P1 需求调度 -->
+            <!-- 线一：私教招聘 -->
             <div class="card">
                 <div class="card-header">
-                    <div class="card-title">📋 P1 需求调度</div>
+                    <div class="card-title">📋 线一：私教招聘</div>
                     <select class="p1-select" id="p1-status" onchange="saveP1()"></select>
                 </div>
                 <div class="p1-focus-wrap">
@@ -220,10 +240,10 @@
                 </div>
             </div>
 
-            <!-- P2 内容运营 -->
+            <!-- 线二：减脂营 & 暑期业务 -->
             <div class="card">
                 <div class="card-header">
-                    <div class="card-title">📝 P2 内容运营</div>
+                    <div class="card-title">📝 线二：减脂营 & 暑期业务</div>
                 </div>
                 <div class="biz-row">
                     <span class="biz-label">本周发布</span>
@@ -241,10 +261,10 @@
                 </div>
             </div>
 
-            <!-- P3 上门私教 -->
+            <!-- 线三：AI内容账号 -->
             <div class="card">
                 <div class="card-header">
-                    <div class="card-title">💪 P3 上门私教</div>
+                    <div class="card-title">🤖 线三：AI内容账号</div>
                 </div>
                 <div class="biz-row">
                     <span class="biz-label">本周课次</span>
