@@ -187,7 +187,7 @@
                 .global-nav-link { display: inline-block; background: #efefef; color: #1d1d1f; border: 1px solid #c8c8c8; font-size: 12px; padding: 5px 12px; border-radius: 7px; text-decoration: none; transition: all 0.15s; font-weight: 500; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
         .global-nav-link:hover { background: #e2e2e2; color: #1d1d1f; box-shadow: 0 2px 4px rgba(0,0,0,0.14); }
         .global-nav-link.active { background: #1d1d1f; color: #fff; border-color: #1d1d1f; }
-        .frozen-notice { background: #fff8e1; border: 1px solid #ffe082; border-radius: 10px; padding: 12px 16px; max-width: 1080px; margin: 16px auto 0; box-sizing: border-box; }
+        .frozen-notice { background: #fff8e1; border: 1px solid #ffe082; border-radius: 10px; padding: 12px 16px; }
         .frozen-notice .fn-title { font-size: 12px; font-weight: 600; color: #f57c00; margin-bottom: 8px; }
         .frozen-notice .fn-item { display: flex; justify-content: space-between; align-items: center; padding: 5px 0; font-size: 13px; }
         .fn-amount { font-weight: 600; }
@@ -262,18 +262,6 @@
             <div class="fund-total">合计可动用现金（已扣已付支出）：<span id="fund-total-val">¥0</span></div>
         </div>
 
-        <!-- 冻结资金 -->
-        <div class="card">
-            <div class="section-header">
-                <h2>🔴 冻结资金</h2>
-                <button class="btn btn-primary btn-sm" onclick="openFrozenModal()">＋ 添加</button>
-            </div>
-            <div class="frozen-list" id="frozen-list"></div>
-            <div id="frozen-empty" class="empty" style="display:none">
-                <div class="icon">🔓</div><p>暂无冻结资金</p>
-            </div>
-        </div>
-
         <!-- 潜在收入 -->
         <div class="card">
             <div class="section-header">
@@ -314,6 +302,18 @@
             <div class="compare-grid" id="compare-grid"></div>
         </div>
 
+        <!-- 冻结资金 -->
+        <div class="card">
+            <div class="section-header">
+                <h2>🔴 冻结资金</h2>
+                <button class="btn btn-primary btn-sm" onclick="openFrozenModal()">＋ 添加</button>
+            </div>
+            <div class="frozen-list" id="frozen-list"></div>
+            <div id="frozen-empty" class="empty" style="display:none">
+                <div class="icon">🔓</div><p>暂无冻结资金</p>
+            </div>
+        </div>
+
     </div>
 
     <!-- ========== 收入轨道 ========== -->
@@ -341,6 +341,14 @@
             <div id="todo-empty" class="empty" style="display:none">
                 <div class="icon">✅</div><p>暂无待办，输入内容后点击「添加」</p>
             </div>
+        </div>
+    </div>
+
+    <div class="frozen-notice">
+        <div class="fn-title">⚠️ 待处理事项</div>
+        <div class="fn-item">
+            <span class="fn-name">工行卡冻结 · 房贷问题</span>
+            <span class="fn-amount" style="color:#e65100">￥3,500</span>
         </div>
     </div>
 
@@ -471,13 +479,6 @@
 </div>
 </div>
 
-<div class="frozen-notice">
-    <div class="fn-title">⚠️ 待处理事项</div>
-    <div class="fn-item">
-        <span class="fn-name">工行卡冻结 · 房贷问题</span>
-        <span class="fn-amount" style="color:#e65100">￥3,500</span>
-    </div>
-</div>
 <div class="toast" id="toast"></div>
 
 <script>
